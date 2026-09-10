@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import { ThemeProvider } from './context/ThemeContext'
 import { LanguageProvider } from './context/LanguageContext'
 import { AuthProvider } from './context/AuthContext'
@@ -85,6 +86,7 @@ export default function App() {
               <Route path=":lang/*" element={<LangLayout />} />
             </Routes>
           </BrowserRouter>
+          <Analytics />
         </AdminProvider>
       </AuthProvider>
     </ThemeProvider>
