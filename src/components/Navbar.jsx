@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
@@ -12,6 +12,8 @@ export default function Navbar() {
   const location = useLocation()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [servicesOpen, setServicesOpen] = useState(false)
+  const servicesRef = useRef(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
@@ -21,25 +23,63 @@ export default function Navbar() {
 
   useEffect(() => {
     setMobileOpen(false)
+    setServicesOpen(false)
   }, [location])
+
+  useEffect(() => {
+    const onDocClick = (e) => {
+      if (servicesRef.current && !servicesRef.current.contains(e.target)) {
+        setServicesOpen(false)
+      }
+    }
+    if (servicesOpen) document.addEventListener('click', onDocClick)
+    return () => document.removeEventListener('click', onDocClick)
+  }, [servicesOpen])
 
   const p = (path) => `/${lang}${path}`
   const isDark = theme === 'dark'
   const logoSrc = isDark ? '/white-color-logo.png' : '/gray-color-logo.png'
 
   const navLinks = [
-    ['/services', t.nav.services],
     ['/developers', t.nav.developers],
     ['/pricing', t.nav.pricing],
+    ['/docs', t.nav.docs],
+    ['/forums', t.nav.forums],
     ['/contact', t.nav.contact],
     ...(user ? [['/admin', 'Admin']] : []),
   ]
 
+  const serviceOptions = t.nav.serviceOptions || []
+
+  const serviceActive = location.pathname === p('/services')
+
+  const linkBase = {
+    fontSize: '14px', fontWeight: 500, transition: 'color 0.2s',
+    letterSpacing: '0.2px', padding: '6px 0',
+  }
+
+  const linkColor = (active) => active ? (isDark ? '#FFFFFF' : '#0F172A') : (isDark ? '#94A3B8' : '#64748B')
+
+  const chevronSvg = (open) => (
+    <svg
+      width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor"
+      strokeWidth="2" strokeLinecap="square"
+      style={{
+        transition: 'transform 0.2s',
+        transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+        opacity: 0.6,
+      }}
+    >
+      <path d="m3 4.5 3 3 3-3"></path>
+    </svg>
+  )
+
   return (
     <>
       <nav style={{
-        position: 'sticky', top: 0, zIndex: 1000, padding: '0 40px', height: '72px',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 60, height: '64px',
+        display: 'flex', alignItems: 'center', padding: '0 32px',
+        justifyContent: 'space-between',
         background: isDark
           ? (scrolled ? 'rgba(3,7,18,0.92)' : 'rgba(3,7,18,0.6)')
           : (scrolled ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.7)'),
@@ -48,51 +88,111 @@ export default function Navbar() {
         transition: 'background 0.3s, box-shadow 0.3s',
         boxShadow: scrolled ? (isDark ? '0 4px 30px rgba(0,0,0,0.3)' : '0 4px 30px rgba(0,0,0,0.06)') : 'none',
       }}>
-        <Link to={p('/')} style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
-          <img
-            src={logoSrc}
-            alt="Emberfield Dynamics"
-            style={{ height: '38px', objectFit: 'contain' }}
-          />
-          <span style={{
-            fontSize: '17px', fontWeight: 700, letterSpacing: '-0.3px',
-            color: isDark ? '#FFFFFF' : '#1F2937',
-          }}>
-            Emberfield Dynamics
-          </span>
-        </Link>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '40px', minWidth: 0 }}>
+          <Link to={p('/')} style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', flexShrink: 0 }}>
+            <img
+              src={logoSrc}
+              alt="Emberfield Dynamics"
+              style={{ height: '36px', objectFit: 'contain' }}
+            />
+            <span style={{
+              fontSize: '16px', fontWeight: 700, letterSpacing: '-0.3px',
+              color: isDark ? '#FFFFFF' : '#1F2937', whiteSpace: 'nowrap',
+            }}>
+              Emberfield Dynamics
+            </span>
+          </Link>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }} className="nav-center-links">
-          {navLinks.map(([path, label]) => {
-            const active = location.pathname === `/${lang}${path}`
-            return (
-              <Link key={path} to={p(path)} style={{
-                color: active ? (isDark ? '#FFFFFF' : '#0F172A') : (isDark ? '#94A3B8' : '#64748B'),
-                fontSize: '14px', fontWeight: 500, transition: 'color 0.2s',
-                letterSpacing: '0.2px',
-              }}
-                onMouseEnter={e => e.target.style.color = isDark ? '#FFFFFF' : '#0F172A'}
-                onMouseLeave={e => e.target.style.color = active ? (isDark ? '#FFFFFF' : '#0F172A') : (isDark ? '#94A3B8' : '#64748B')}
-              >{label}</Link>
-            )
-          })}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }} className="nav-links">
+            <div ref={servicesRef} style={{ position: 'relative' }}>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setServicesOpen(!servicesOpen)
+                }}
+                style={{
+                  ...linkBase,
+                  background: 'transparent', border: 'none', cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', gap: '4px',
+                  color: serviceActive ? (isDark ? '#FFFFFF' : '#0F172A') : (isDark ? '#94A3B8' : '#64748B'),
+                  borderBottom: serviceActive ? `2px solid ${isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.15)'}` : '2px solid transparent',
+                }}
+                onMouseEnter={e => e.currentTarget.style.color = isDark ? '#FFFFFF' : '#0F172A'}
+                onMouseLeave={e => e.currentTarget.style.color = serviceActive ? (isDark ? '#FFFFFF' : '#0F172A') : (isDark ? '#94A3B8' : '#64748B')}
+                aria-expanded={servicesOpen}
+                aria-haspopup="true"
+              >
+                <span>{t.nav.services}</span>
+                {chevronSvg(servicesOpen)}
+              </button>
+
+              {servicesOpen && (
+                <div style={{
+                  position: 'absolute', top: 'calc(100% + 10px)', left: 0, zIndex: 70,
+                  minWidth: '300px', padding: '8px',
+                  background: isDark ? 'rgba(3,7,18,0.98)' : 'rgba(255,255,255,0.98)',
+                  backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+                  border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'}`,
+                  borderRadius: '8px',
+                  boxShadow: isDark ? '0 12px 40px rgba(0,0,0,0.5)' : '0 12px 40px rgba(0,0,0,0.1)',
+                  animation: 'fadeIn 0.15s ease',
+                }}>
+                  {serviceOptions.map((opt, i) => (
+                    <Link
+                      key={i}
+                      to={p('/services')}
+                      onClick={() => setServicesOpen(false)}
+                      style={{
+                        display: 'block', padding: '10px 12px', borderRadius: '6px',
+                        textDecoration: 'none', transition: 'background 0.15s',
+                      }}
+                      onMouseEnter={e => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'}
+                      onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                    >
+                      <div style={{
+                        fontSize: '14px', fontWeight: 600, color: isDark ? '#FFFFFF' : '#0F172A',
+                      }}>{opt.title}</div>
+                      <div style={{
+                        fontSize: '12.5px', color: isDark ? '#94A3B8' : '#64748B', marginTop: '3px',
+                        lineHeight: 1.4,
+                      }}>{opt.desc}</div>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {navLinks.map(([path, label]) => {
+              const active = location.pathname === `/${lang}${path}`
+              return (
+                <Link key={path} to={p(path)} style={{
+                  ...linkBase,
+                  color: linkColor(active),
+                  borderBottom: active ? `2px solid ${isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.15)'}` : '2px solid transparent',
+                }}
+                  onMouseEnter={e => e.target.style.color = isDark ? '#FFFFFF' : '#0F172A'}
+                  onMouseLeave={e => e.target.style.color = linkColor(active)}
+                >{label}</Link>
+              )
+            })}
+          </div>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }} className="nav-right-actions">
           {!user && (
             <Link to={p('/register')} style={{
-              padding: '9px 22px', borderRadius: 0, border: 'none',
+              padding: '9px 18px', borderRadius: 0, border: 'none',
               background: '#10B981', color: '#000', fontSize: '13px',
               fontWeight: 700, transition: 'all 0.2s', letterSpacing: '0.2px',
             }}
-              onMouseEnter={e => { e.target.style.background = '#059669' }}
-              onMouseLeave={e => { e.target.style.background = '#10B981' }}
+              onMouseEnter={e => { e.currentTarget.style.background = '#059669' }}
+              onMouseLeave={e => { e.currentTarget.style.background = '#10B981' }}
             >{t.nav.signUp}</Link>
           )}
 
           {!user && (
             <Link to={p('/login')} style={{
-              padding: '9px 18px', borderRadius: 0, border: 'none',
+              padding: '9px 16px', borderRadius: 0, border: 'none',
               background: 'transparent', color: isDark ? '#94A3B8' : '#64748B',
               fontSize: '13px', fontWeight: 600, transition: 'color 0.2s',
             }}
@@ -105,7 +205,7 @@ export default function Navbar() {
             <>
               <Link to={p('/admin')} style={{
                 padding: '8px 16px', borderRadius: 0,
-                border: `1px solid ${isDark ? 'rgba(16,185,129,0.25)' : 'rgba(16,185,129,0.25)'}`,
+                border: '1px solid rgba(16,185,129,0.25)',
                 background: 'rgba(16,185,129,0.1)', color: '#10B981', fontSize: '13px',
                 fontWeight: 600, transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px',
               }}>
@@ -181,12 +281,26 @@ export default function Navbar() {
 
       {mobileOpen && (
         <div style={{
-          position: 'fixed', top: '72px', left: 0, right: 0, bottom: 0,
+          position: 'fixed', top: '64px', left: 0, right: 0, bottom: 0,
           background: isDark ? 'rgba(3,7,18,0.95)' : 'rgba(255,255,255,0.95)',
           backdropFilter: 'blur(20px)',
-          zIndex: 999, padding: '24px', display: 'flex', flexDirection: 'column', gap: '8px',
+          zIndex: 55, padding: '24px', display: 'flex', flexDirection: 'column', gap: '8px',
           animation: 'fadeIn 0.2s ease',
         }}>
+          {serviceOptions.map((opt, i) => (
+            <Link key={i} to={p('/services')} style={{
+              padding: '12px 16px', fontSize: '16px', fontWeight: 500, borderRadius: 0,
+              color: isDark ? '#FFFFFF' : '#0F172A',
+              background: 'transparent',
+              border: 'none', transition: 'background 0.15s',
+            }}>
+              {opt.title}
+              <span style={{
+                display: 'block', fontSize: '12.5px', fontWeight: 400,
+                color: isDark ? '#94A3B8' : '#64748B', marginTop: '3px',
+              }}>{opt.desc}</span>
+            </Link>
+          ))}
           {navLinks.map(([path, label]) => (
             <Link key={path} to={p(path)} style={{
               padding: '14px 16px', fontSize: '16px', fontWeight: 500, borderRadius: 0,
@@ -199,9 +313,13 @@ export default function Navbar() {
       )}
 
       <style>{`
-        @media (max-width: 768px) {
-          .nav-center-links { display: none !important; }
+        @media (max-width: 1024px) {
+          .nav-links { display: none !important; }
           .nav-right-actions .mobile-menu-btn { display: flex !important; }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
       `}</style>
     </>

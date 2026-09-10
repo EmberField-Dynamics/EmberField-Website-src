@@ -14,10 +14,15 @@ export const translations = {
       developers: 'Developers',
       pricing: 'Pricing',
       forums: 'Forums',
-      docs: 'Documentation',
+      docs: 'Docs',
       contact: 'Contact',
       signIn: 'Sign In',
       signUp: 'Sign Up',
+      serviceOptions: [
+        { title: 'Discord Service', desc: 'Custom Bots, Verification and Advanced Integration' },
+        { title: 'Minecraft Services', desc: 'Plugin Development, configurations and optimizations.' },
+        { title: 'Web Services', desc: 'Corporate websites, web apps and custom coded panels' },
+      ],
     },
     home: {
       brand: 'EMBERFIELD DYNAMICS',
@@ -171,6 +176,13 @@ export const translations = {
       contact: 'Contact',
       signIn: 'Connexion',
       signUp: 'S\u2019inscrire',
+      docs: 'Docs',
+      forums: 'Forums',
+      serviceOptions: [
+        { title: 'Service Discord', desc: 'Bots sur mesure, v\u00e9rification et int\u00e9gration avanc\u00e9e' },
+        { title: 'Services Minecraft', desc: 'D\u00e9veloppement de plugins, configurations et optimisations.' },
+        { title: 'Services Web', desc: 'Sites web d\u2019entreprise, applications web et panneaux personnalis\u00e9s' },
+      ],
     },
     infoBar: 'Infrastructure Num\u00e9rique Professionnelle \u2022 Emberfield Dynamics',
     home: {
@@ -348,6 +360,13 @@ export const translations = {
       contact: 'Kontakt',
       signIn: 'Anmelden',
       signUp: 'Registrieren',
+      docs: 'Docs',
+      forums: 'Foren',
+      serviceOptions: [
+        { title: 'Discord-Service', desc: 'Eigene Bots, Verifizierung und erweiterte Integration' },
+        { title: 'Minecraft-Services', desc: 'Plugin-Entwicklung, Konfigurationen und Optimierungen.' },
+        { title: 'Web-Services', desc: 'Unternehmenswebsites, Web-Apps und individuelle Panels' },
+      ],
     },
     infoBar: 'Professionelle Digitale Infrastruktur \u2022 Emberfield Dynamics',
     home: {
@@ -525,6 +544,13 @@ export const translations = {
       contact: 'Contacto',
       signIn: 'Iniciar Sesi\u00f3n',
       signUp: 'Registrarse',
+      docs: 'Docs',
+      forums: 'Foros',
+      serviceOptions: [
+        { title: 'Servicio Discord', desc: 'Bots personalizados, verificaci\u00f3n e integraci\u00f3n avanzada' },
+        { title: 'Servicios Minecraft', desc: 'Desarrollo de plugins, configuraciones y optimizaciones.' },
+        { title: 'Servicios Web', desc: 'Sitios web corporativos, aplicaciones web y paneles personalizados' },
+      ],
     },
     infoBar: 'Infraestructura Digital Profesional \u2022 Emberfield Dynamics',
     home: {
@@ -702,6 +728,13 @@ export const translations = {
       contact: 'Contatto',
       signIn: 'Accedi',
       signUp: 'Registrati',
+      docs: 'Docs',
+      forums: 'Forum',
+      serviceOptions: [
+        { title: 'Servizio Discord', desc: 'Bot personalizzati, verifica e integrazione avanzata' },
+        { title: 'Servizi Minecraft', desc: 'Sviluppo di plugin, configurazioni e ottimizzazioni.' },
+        { title: 'Servizi Web', desc: 'Siti web aziendali, app web e pannelli personalizzati' },
+      ],
     },
     infoBar: 'Infrastruttura Digitale Professionale \u2022 Emberfield Dynamics',
     home: {

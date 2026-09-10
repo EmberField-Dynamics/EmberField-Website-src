@@ -198,7 +198,7 @@ export default function Admin() {
   ]
 
   return (
-    <div style={{ minHeight: '100vh', padding: '40px 24px', maxWidth: '1200px', margin: '0 auto' }}>
+    <div style={{ minHeight: '100vh', padding: '80px 24px 40px', maxWidth: '1200px', margin: '0 auto' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px', flexWrap: 'wrap', gap: '16px', animation: 'fadeInUp 0.6s ease-out' }}>
         <div>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '4px 12px', borderRadius: '6px', background: 'var(--badge-bg)', border: '1px solid var(--badge-border)', fontSize: '11px', fontWeight: 700, color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>

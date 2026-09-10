@@ -34,7 +34,7 @@ export default function Login() {
   }
 
   return (
-    <div style={{ display: 'flex', minHeight: 'calc(100vh - 72px)' }} className="login-split">
+    <div style={{ display: 'flex', minHeight: 'calc(100vh - 72px)', marginTop: '64px' }} className="login-split">
       <div style={{
         flex: 1, background: 'linear-gradient(135deg, #030712 0%, #064E3B 50%, #030712 100%)',
         display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
