@@ -33,7 +33,7 @@ begin
     case when new.email = 'mcminedime@gmail.com' then 'admin' else 'member' end,
     case
       when new.raw_user_meta_data ->> 'password_set' = 'true' then true
-      when coalesce(new.app_metadata ->> 'provider', 'email') = 'google' then false
+      when coalesce(new.raw_app_meta_data ->> 'provider', 'email') = 'google' then false
       else true
     end
   )
