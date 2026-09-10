@@ -19,7 +19,10 @@ export default async function handler(req, res) {
   const { data: { user: caller }, error: authError } = await anon.auth.getUser(token)
   if (authError || !caller) return res.status(401).json({ error: 'Invalid session' })
 
-  const { data: profile } = await anon
+  if (!serviceKey) return res.status(500).json({ error: 'Service role key not configured' })
+  const admin = createClient(url, serviceKey)
+
+  const { data: profile } = await admin
     .from('profiles')
     .select('role')
     .eq('id', caller.id)
@@ -30,9 +33,6 @@ export default async function handler(req, res) {
   }
 
   const { action, userId, newPassword, newEmail } = req.body || {}
-
-  if (!serviceKey) return res.status(500).json({ error: 'Service role key not configured' })
-  const admin = createClient(url, serviceKey)
 
   if (action === 'resetPassword') {
     if (!userId || !newPassword) return res.status(400).json({ error: 'Missing userId or newPassword' })
