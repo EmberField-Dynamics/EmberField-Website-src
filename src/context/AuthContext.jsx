@@ -99,6 +99,33 @@ export function AuthProvider({ children }) {
     return { success: true }
   }
 
+  const unlinkGoogle = async () => {
+    const { data: { identities }, error: idErr } = await supabase.auth.getUserIdentities()
+    if (idErr) return { success: false, error: idErr.message }
+    const google = identities?.find(i => i.provider === 'google')
+    if (!google) return { success: false, error: 'No Google account linked.' }
+    const { error } = await supabase.auth.unlinkIdentity(google)
+    if (error) return { success: false, error: error.message }
+    return { success: true }
+  }
+
+  const adminCall = async (payload) => {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) return { success: false, error: 'Not signed in.' }
+    try {
+      const resp = await fetch('/api/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
+        body: JSON.stringify(payload),
+      })
+      const json = await resp.json().catch(() => ({}))
+      if (!resp.ok) return { success: false, error: json.error || `Request failed (${resp.status})` }
+      return { success: true }
+    } catch (err) {
+      return { success: false, error: err.message }
+    }
+  }
+
   const updateProfile = async ({ full_name, avatar }) => {
     const updates = {}
     if (full_name !== undefined) updates.full_name = full_name
@@ -142,7 +169,7 @@ export function AuthProvider({ children }) {
   return (
     <AuthContext.Provider value={{
       user, loading, isAdmin,
-      signIn, signUp, signInWithGoogle, completeGoogleSetup, linkGoogle,
+      signIn, signUp, signInWithGoogle, completeGoogleSetup, linkGoogle, unlinkGoogle, adminCall,
       updateProfile, listUsers, setRole, logout,
     }}>
       {children}

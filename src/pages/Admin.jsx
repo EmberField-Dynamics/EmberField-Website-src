@@ -82,7 +82,7 @@ function ImageUpload({ value, onChange }) {
 
 export default function Admin() {
   const { lang } = useLanguage()
-  const { user, logout, listUsers, setRole } = useAuth()
+  const { user, logout, listUsers, setRole, adminCall } = useAuth()
   const {
     roles, members, projects,
     addRole, updateRole, removeRole, reorderRoles,
@@ -107,6 +107,8 @@ export default function Admin() {
   const [users, setUsers] = useState([])
   const [usersLoading, setUsersLoading] = useState(false)
   const [roleChange, setRoleChange] = useState({})
+  const [adminAction, setAdminAction] = useState({})
+  const [userMsg, setUserMsg] = useState('')
 
   const loadUsers = async () => {
     setUsersLoading(true)
@@ -119,6 +121,25 @@ export default function Admin() {
   useEffect(() => {
     if (user && user.role === 'admin') loadUsers()
   }, [])
+
+  const handleResetPassword = async (u) => {
+    const newPassword = window.prompt(`Reset password for ${u.email}?\nEnter a new password (min 6 characters):`, '')
+    if (!newPassword) return
+    if (newPassword.length < 6) { setUserMsg('Password too short (min 6 characters).'); return }
+    setUserMsg(''); setAdminAction(prev => ({ ...prev, [u.id]: 'reset' }))
+    const result = await adminCall({ action: 'resetPassword', userId: u.id, newPassword })
+    setAdminAction(prev => ({ ...prev, [u.id]: '' }))
+    setUserMsg(result.success ? `Password reset for ${u.email}.` : result.error)
+  }
+
+  const handleDeleteUser = async (u) => {
+    if (!window.confirm(`Delete user ${u.email}?\nThis permanently removes their account and cannot be undone.`)) return
+    setUserMsg(''); setAdminAction(prev => ({ ...prev, [u.id]: 'delete' }))
+    const result = await adminCall({ action: 'deleteUser', userId: u.id })
+    setAdminAction(prev => ({ ...prev, [u.id]: '' }))
+    if (result.success) { setUsers(prev => prev.filter(x => x.id !== u.id)); setUserMsg(`User ${u.email} deleted.`) }
+    else setUserMsg(result.error)
+  }
 
   const handleRoleChange = async (userId, role) => {
     setRoleChange(prev => ({ ...prev, [userId]: true }))
@@ -338,6 +359,10 @@ export default function Admin() {
 
           {usersLoading && <p style={{ fontSize: '14px', color: 'var(--text-secondary)', padding: '20px' }}>Loading users...</p>}
 
+          {userMsg && (
+            <div style={{ padding: '12px 16px', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--badge-bg)', color: 'var(--text)', fontSize: '13px', fontWeight: 600, marginBottom: '16px' }}>{userMsg}</div>
+          )}
+
           {!usersLoading && users.length === 0 && (
             <div style={{ padding: '40px', textAlign: 'center', borderRadius: '14px', border: '1px dashed var(--border)', background: 'var(--card-bg)' }}>
               <div style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>No registered users yet.</div>
@@ -366,6 +391,34 @@ export default function Admin() {
                 </div>
                 <div style={{ fontSize: '12px', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
                   {u.password_set ? 'Password set' : 'Google only'}
+                </div>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button
+                    onClick={() => handleResetPassword(u)}
+                    disabled={adminAction[u.id] === 'delete'}
+                    style={{
+                      padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border)',
+                      background: 'transparent', color: 'var(--text-secondary)', fontSize: '12px', fontWeight: 600,
+                      cursor: adminAction[u.id] === 'delete' ? 'not-allowed' : 'pointer', transition: 'all 0.2s',
+                    }}
+                    onMouseEnter={e => { if (!adminAction[u.id]) e.currentTarget.style.borderColor = 'var(--primary)' }}
+                    onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
+                  >
+                    {adminAction[u.id] === 'reset' ? '...' : 'Reset Password'}
+                  </button>
+                  <button
+                    onClick={() => handleDeleteUser(u)}
+                    disabled={u.id === user?.id || adminAction[u.id] === 'reset'}
+                    style={{
+                      padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(220,38,38,0.3)',
+                      background: 'transparent', color: '#DC2626', fontSize: '12px', fontWeight: 600,
+                      cursor: u.id === user?.id || adminAction[u.id] === 'reset' ? 'not-allowed' : 'pointer', transition: 'all 0.2s',
+                    }}
+                    onMouseEnter={e => { if (u.id !== user?.id && !adminAction[u.id]) { e.currentTarget.style.background = '#DC2626'; e.currentTarget.style.color = '#fff' } }}
+                    onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#DC2626' }}
+                  >
+                    {adminAction[u.id] === 'delete' ? '...' : 'Delete'}
+                  </button>
                 </div>
                 <select
                   value={u.role}

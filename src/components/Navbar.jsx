@@ -203,7 +203,7 @@ export default function Navbar() {
 
           {user && (
             <>
-              <Link to={user.role === 'admin' ? p('/admin') : p('/member')} style={{
+              <Link to={p('/member')} style={{
                 padding: '8px 16px', borderRadius: 0,
                 border: '1px solid rgba(16,185,129,0.25)',
                 background: 'rgba(16,185,129,0.1)', color: '#10B981', fontSize: '13px',
@@ -216,8 +216,18 @@ export default function Navbar() {
                   fontSize: '10px', fontWeight: 800, color: '#000',
                 }}>{user.name.charAt(0).toUpperCase()}</div>
                 {user.name}
-                {user.role === 'admin' && <span style={{ fontSize: '9px', fontWeight: 800, color: '#10B981' }}>ADMIN</span>}
               </Link>
+              {user.role === 'admin' && (
+                <Link to={p('/admin')} style={{
+                  padding: '8px 16px', borderRadius: 0,
+                  border: '1px solid rgba(16,185,129,0.25)',
+                  background: 'var(--input-bg)', color: 'var(--text)', fontSize: '13px',
+                  fontWeight: 600, transition: 'all 0.2s',
+                }}
+                  onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-hover)'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'var(--input-bg)'}
+                >{t.nav.admin}</Link>
+              )}
               <button onClick={() => { logout(); window.location.href = `/${lang}/` }} style={{
                 padding: '9px 16px', borderRadius: 0, border: 'none',
                 background: 'transparent', color: isDark ? '#94A3B8' : '#64748B',

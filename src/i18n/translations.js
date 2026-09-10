@@ -18,6 +18,7 @@ export const translations = {
       contact: 'Contact',
       signIn: 'Sign In',
       signUp: 'Sign Up',
+      admin: 'Admin',
       serviceOptions: [
         { title: 'Discord Service', desc: 'Custom Bots, Verification and Advanced Integration' },
         { title: 'Minecraft Services', desc: 'Plugin Development, configurations and optimizations.' },
@@ -182,6 +183,10 @@ export const translations = {
       connectionsTitle: 'Account Connections',
       connectionsDesc: 'Link accounts to sign in with them.',
       linkGoogle: 'Link Google',
+      unlinkGoogle: 'Unlink',
+      googleUnlinked: 'Google not linked',
+      notConnected: 'Not connected',
+      googleUnlinkMsg: 'Google account unlinked successfully.',
     },
     footer: {
       desc: 'Enterprise-grade digital infrastructure solutions for Minecraft hosting, web development, and technical consulting.',
@@ -213,6 +218,7 @@ export const translations = {
       contact: 'Contact',
       signIn: 'Connexion',
       signUp: 'S\u2019inscrire',
+      admin: 'Admin',
       docs: 'Docs',
       forums: 'Forums',
       serviceOptions: [
@@ -397,6 +403,10 @@ export const translations = {
       connectionsTitle: 'Connexions du Compte',
       connectionsDesc: 'Associez des comptes pour vous connecter avec eux.',
       linkGoogle: 'Associer Google',
+      unlinkGoogle: 'Dissocier',
+      googleUnlinked: 'Google non associ\u00e9',
+      notConnected: 'Non connect\u00e9',
+      googleUnlinkMsg: 'Compte Google dissoci\u00e9 avec succ\u00e8s.',
     },
     footer: {
       desc: 'Solutions d\u2019infrastructure num\u00e9rique de niveau entreprise pour l\u2019h\u00e9bergement Minecraft, le d\u00e9veloppement web et le consulting technique.',
@@ -428,6 +438,7 @@ export const translations = {
       contact: 'Kontakt',
       signIn: 'Anmelden',
       signUp: 'Registrieren',
+      admin: 'Admin',
       docs: 'Docs',
       forums: 'Foren',
       serviceOptions: [
@@ -612,6 +623,10 @@ export const translations = {
       connectionsTitle: 'Kontoverbindungen',
       connectionsDesc: 'Verkn\u00fcpfen Sie Konten, um sich damit anzumelden.',
       linkGoogle: 'Google Verkn\u00fcpfen',
+      unlinkGoogle: 'Trennen',
+      googleUnlinked: 'Google nicht verkn\u00fcpft',
+      notConnected: 'Nicht verbunden',
+      googleUnlinkMsg: 'Google-Konto erfolgreich getrennt.',
     },
     footer: {
       desc: 'Unternehmenstaugliche digitale Infrastrukturl\u00f6sungen f\u00fcr Minecraft-Hosting, Webentwicklung und technische Beratung.',
@@ -643,6 +658,7 @@ export const translations = {
       contact: 'Contacto',
       signIn: 'Iniciar Sesi\u00f3n',
       signUp: 'Registrarse',
+      admin: 'Administrador',
       docs: 'Docs',
       forums: 'Foros',
       serviceOptions: [
@@ -827,6 +843,10 @@ export const translations = {
       connectionsTitle: 'Conexiones de Cuenta',
       connectionsDesc: 'Vincula cuentas para iniciar sesi\u00f3n con ellas.',
       linkGoogle: 'Vincular Google',
+      unlinkGoogle: 'Desvincular',
+      googleUnlinked: 'Google no vinculado',
+      notConnected: 'No conectado',
+      googleUnlinkMsg: 'Cuenta de Google desvinculada correctamente.',
     },
     footer: {
       desc: 'Soluciones de infraestructura digital de nivel empresarial para alojamiento Minecraft, desarrollo web y consultor\u00eda t\u00e9cnica.',
@@ -858,6 +878,7 @@ export const translations = {
       contact: 'Contatto',
       signIn: 'Accedi',
       signUp: 'Registrati',
+      admin: 'Admin',
       docs: 'Docs',
       forums: 'Forum',
       serviceOptions: [
@@ -1042,6 +1063,10 @@ export const translations = {
       connectionsTitle: 'Connessioni Account',
       connectionsDesc: 'Collega account per accedere con essi.',
       linkGoogle: 'Collega Google',
+      unlinkGoogle: 'Scollega',
+      googleUnlinked: 'Google non collegato',
+      notConnected: 'Non connesso',
+      googleUnlinkMsg: 'Account Google scollegato con successo.',
     },
     footer: {
       desc: 'Soluzioni di infrastruttura digitale di livello enterprise per hosting Minecraft, sviluppo web e consulenza tecnica.',
