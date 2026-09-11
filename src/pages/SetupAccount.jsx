@@ -29,7 +29,7 @@ export default function SetupAccount() {
   }
 
   const inputStyle = {
-    width: '100%', height: '52px', padding: '0 18px', borderRadius: '12px',
+    width: '100%', height: '52px', padding: '0 18px', borderRadius: 0,
     border: '1px solid var(--border)', background: 'var(--input-bg)',
     color: 'var(--text)', fontSize: '15px', outline: 'none',
     transition: 'all 0.2s',
@@ -56,7 +56,7 @@ export default function SetupAccount() {
 
         {error && (
           <div style={{
-            padding: '12px 16px', borderRadius: '10px',
+            padding: '12px 16px', borderRadius: 0,
             background: 'rgba(220,38,38,0.1)', border: '1px solid rgba(220,38,38,0.2)',
             color: '#DC2626', fontSize: '13px', marginBottom: '20px',
           }}>{error}</div>
@@ -96,12 +96,12 @@ export default function SetupAccount() {
           </div>
 
           <button type="submit" disabled={loading} style={{
-            width: '100%', height: '52px', borderRadius: '12px', border: 'none',
+            width: '100%', height: '52px', borderRadius: 0, border: 'none',
             background: 'var(--primary)', color: '#000', fontSize: '15px', fontWeight: 700,
             cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1,
             transition: 'all 0.25s',
           }}
-            onMouseEnter={e => { if (!loading) e.currentTarget.style.boxShadow = '0 0 30px rgba(16,185,129,0.3)' }}
+            onMouseEnter={e => { if (!loading) e.currentTarget.style.boxShadow = 'none' }}
             onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none' }}
           >{loading ? t.setup.saving : t.setup.btn}</button>
         </form>

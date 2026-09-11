@@ -5,12 +5,12 @@ import Reveal from '../components/Reveal'
 function MemberCard({ member }) {
   return (
     <div style={{
-      padding: '28px', borderRadius: '16px',
+      padding: '28px', borderRadius: 0,
       border: '1px solid var(--border)', background: 'var(--card-bg)',
       backdropFilter: 'blur(10px)', textAlign: 'center',
       transition: 'all 0.3s', height: '100%',
     }}
-      onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 40px rgba(16,185,129,0.1)' }}
+      onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = 'none' }}
       onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}
     >
       {member.avatar ? (
@@ -30,7 +30,7 @@ function MemberCard({ member }) {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', justifyContent: 'center' }}>
         {member.tags.map((tag, ti) => (
           <span key={ti} style={{
-            padding: '4px 10px', borderRadius: '6px',
+            padding: '4px 10px', borderRadius: 0,
             background: 'var(--badge-bg)', border: '1px solid var(--badge-border)',
             fontSize: '11px', fontWeight: 600, color: 'var(--primary)',
           }}>{tag}</span>
@@ -45,16 +45,16 @@ function ProjectCard({ project }) {
     <a
       href={project.link || '#'}
       style={{
-        padding: '24px', borderRadius: '16px',
+        padding: '24px', borderRadius: 0,
         border: '1px solid var(--border)', background: 'var(--card-bg)',
         backdropFilter: 'blur(10px)', textDecoration: 'none', color: 'inherit',
         transition: 'all 0.3s', display: 'block', height: '100%',
       }}
-      onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 40px rgba(16,185,129,0.1)' }}
+      onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = 'none' }}
       onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '12px' }}>
-        {project.image && <img src={project.image} alt={project.name} style={{ width: '48px', height: '48px', borderRadius: '10px', objectFit: 'cover' }}/>}
+        {project.image && <img src={project.image} alt={project.name} style={{ width: '48px', height: '48px', borderRadius: 0, objectFit: 'cover' }}/>}
         <div>
           <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text)' }}>{project.name}</h3>
           {project.link && <span style={{ fontSize: '12px', color: 'var(--primary)', fontFamily: 'monospace' }}>{project.link}</span>}
@@ -64,7 +64,7 @@ function ProjectCard({ project }) {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
         {project.tags.map((tag, ti) => (
           <span key={ti} style={{
-            padding: '4px 10px', borderRadius: '6px',
+            padding: '4px 10px', borderRadius: 0,
             background: 'var(--badge-bg)', border: '1px solid var(--badge-border)',
             fontSize: '11px', fontWeight: 600, color: 'var(--primary)',
           }}>{tag}</span>
@@ -102,7 +102,7 @@ export default function Developers() {
               display: 'flex', alignItems: 'center', gap: '12px',
             }}>
               <span style={{
-                padding: '8px 20px', borderRadius: '8px',
+                padding: '8px 20px', borderRadius: 0,
                 background: 'var(--badge-bg)', border: '1px solid var(--badge-border)',
                 color: 'var(--primary)', fontSize: '14px', fontWeight: 700,
               }}>{role.name}</span>
@@ -117,7 +117,7 @@ export default function Developers() {
       {unassigned.length > 0 && (
         <Reveal style={{ marginBottom: '64px' }}>
           <h2 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '32px' }}>
-            <span style={{ padding: '8px 20px', borderRadius: '8px', background: 'var(--input-bg)', border: '1px solid var(--border)', color: 'var(--text-secondary)', fontSize: '14px' }}>Team</span>
+            <span style={{ padding: '8px 20px', borderRadius: 0, background: 'var(--input-bg)', border: '1px solid var(--border)', color: 'var(--text-secondary)', fontSize: '14px' }}>Team</span>
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '20px' }}>
             {unassigned.map((m, i) => <Reveal key={m.id} delay={i * 80}><MemberCard member={m}/></Reveal>)}

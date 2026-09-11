@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
+import { useTheme } from '../context/ThemeContext'
 import Reveal from '../components/Reveal'
 
 const CONTAINER = {
@@ -58,16 +59,17 @@ const ICONS = {
 }
 
 function StackTile({ name, src }) {
-  const invert = name === 'Next.js' || name === 'Vercel'
+  const { theme } = useTheme()
+  const invert = theme === 'dark' && (name === 'Next.js' || name === 'Vercel')
   return (
     <div title={name} style={{
       width: '64px', height: '64px', borderRadius: '6px',
-      background: 'rgba(24,24,27,0.9)', border: '1px solid #3f3f46',
+      background: 'var(--surface)', border: '1px solid var(--border-hover)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       padding: '12px', flexShrink: 0, transition: 'border 0.2s, transform 0.2s',
     }}
       onMouseEnter={e => { e.currentTarget.style.borderColor = '#10B981'; e.currentTarget.style.transform = 'translateY(-2px)' }}
-      onMouseLeave={e => { e.currentTarget.style.borderColor = '#3f3f46'; e.currentTarget.style.transform = 'none' }}
+      onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-hover)'; e.currentTarget.style.transform = 'none' }}
     >
       <img src={src} alt={name} style={{
         width: '30px', height: '30px', objectFit: 'contain',
@@ -221,20 +223,20 @@ export default function Home() {
             <div className="carousel-row" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <button type="button" onClick={prev} aria-label="Previous slide" className="carousel-btn" style={{
                 flexShrink: 0, width: '36px', height: '36px', borderRadius: '4px',
-                border: '1px solid #27272a', background: 'rgba(24,24,27,0.9)',
-                color: '#d4d4d8', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                border: '1px solid var(--border-hover)', background: 'var(--surface)',
+                color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 cursor: 'pointer', transition: 'background 0.2s, color 0.2s',
               }}
-                onMouseEnter={e => { e.currentTarget.style.background = '#27272a'; e.currentTarget.style.color = '#fff' }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(24,24,27,0.9)'; e.currentTarget.style.color = '#d4d4d8' }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface-hover)'; e.currentTarget.style.color = 'var(--text)' }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'var(--surface)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
               </button>
 
               <div style={{
                 position: 'relative', flex: 1, overflow: 'hidden',
-                borderRadius: '4px', border: '1px solid #27272a',
-                background: '#09090b', aspectRatio: '1200/350',
+                borderRadius: '4px', border: '1px solid var(--border-hover)',
+                background: 'var(--bg)', aspectRatio: '1200/350',
               }}>
                 {BANNERS.map((b, i) => {
                   const active = slide === i
@@ -258,12 +260,12 @@ export default function Home() {
 
               <button type="button" onClick={next} aria-label="Next slide" className="carousel-btn" style={{
                 flexShrink: 0, width: '36px', height: '36px', borderRadius: '4px',
-                border: '1px solid #27272a', background: 'rgba(24,24,27,0.9)',
-                color: '#d4d4d8', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                border: '1px solid var(--border-hover)', background: 'var(--surface)',
+                color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 cursor: 'pointer', transition: 'background 0.2s, color 0.2s',
               }}
-                onMouseEnter={e => { e.currentTarget.style.background = '#27272a'; e.currentTarget.style.color = '#fff' }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(24,24,27,0.9)'; e.currentTarget.style.color = '#d4d4d8' }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface-hover)'; e.currentTarget.style.color = 'var(--text)' }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'var(--surface)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
               </button>
@@ -278,15 +280,15 @@ export default function Home() {
                     style={{
                       height: '6px', borderRadius: '1px', border: 'none', cursor: 'pointer',
                       width: slide === i ? '32px' : '12px',
-                      background: slide === i ? '#e4e4e7' : '#27272a',
+                      background: slide === i ? 'var(--text)' : 'var(--border-hover)',
                       transition: 'all 0.3s',
                     }}
-                    onMouseEnter={e => { if (slide !== i) e.currentTarget.style.background = '#3f3f46' }}
-                    onMouseLeave={e => { if (slide !== i) e.currentTarget.style.background = '#27272a' }}
+                    onMouseEnter={e => { if (slide !== i) e.currentTarget.style.background = 'var(--surface-hover)' }}
+                    onMouseLeave={e => { if (slide !== i) e.currentTarget.style.background = 'var(--border-hover)' }}
                   />
                 ))}
               </div>
-              <span style={{ fontSize: '12px', fontFamily: 'monospace', color: '#71717a', marginLeft: '8px', userSelect: 'none' }}>
+              <span style={{ fontSize: '12px', fontFamily: 'monospace', color: 'var(--muted)', marginLeft: '8px', userSelect: 'none' }}>
                 {String(slide + 1).padStart(2, '0')} / {String(BANNERS.length).padStart(2, '0')}
               </span>
             </div>
@@ -323,14 +325,14 @@ export default function Home() {
       </section>
 
       <section id="stack" style={{
-        padding: '80px 0', background: '#09090b',
-        color: '#f4f4f5', borderTop: '1px solid #18181b',
+        padding: '80px 0', background: 'var(--bg)',
+        color: 'var(--text)', borderTop: '1px solid var(--border)',
       }}>
         <div style={{ ...CONTAINER, textAlign: 'center' }}>
           <Reveal>
           {stackKeys.map((group, gi) => (
             <div key={gi} style={{ marginBottom: '48px' }}>
-              <h3 style={{ fontSize: '20px', fontWeight: 700, letterSpacing: '-0.3px', color: '#fff', textAlign: 'center', marginBottom: '16px' }}>
+              <h3 style={{ fontSize: '20px', fontWeight: 700, letterSpacing: '-0.3px', color: 'var(--text)', textAlign: 'center', marginBottom: '16px' }}>
                 {group.label}
               </h3>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', alignItems: 'center', justifyContent: 'center' }}>
@@ -397,17 +399,17 @@ export default function Home() {
       </section>
 
       <section style={{
-        padding: '96px 0', background: '#09090b',
-        color: '#f4f4f5', borderTop: '1px solid #27272a',
+        padding: '96px 0', background: 'var(--bg)',
+        color: 'var(--text)', borderTop: '1px solid var(--border)',
       }}>
         <div style={{ ...CONTAINER }}>
           <Reveal>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', maxWidth: '560px' }}>
             <h2 style={{
               fontSize: 'clamp(28px, 3.5vw, 40px)', fontWeight: 700,
-              letterSpacing: '-0.5px', lineHeight: 1.15, color: '#fff',
+              letterSpacing: '-0.5px', lineHeight: 1.15, color: 'var(--text)',
             }}>{t.security.title}</h2>
-            <p style={{ fontSize: '16px', lineHeight: 1.7, color: '#a1a1aa' }}>
+            <p style={{ fontSize: '16px', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
               {t.security.subtitle}
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', paddingTop: '16px' }}>
@@ -419,8 +421,8 @@ export default function Home() {
                     display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#10B981',
                   }}>{item.icon}</div>
                   <div>
-                    <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#fff' }}>{item.title}</h4>
-                    <p style={{ fontSize: '14px', color: '#a1a1aa', marginTop: '4px', lineHeight: 1.6 }}>{item.desc}</p>
+                    <h4 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--text)' }}>{item.title}</h4>
+                    <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginTop: '4px', lineHeight: 1.6 }}>{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -437,16 +439,16 @@ export default function Home() {
           <Reveal delay={100}>
           <div style={{
             position: 'relative', overflow: 'hidden', borderRadius: '0',
-            border: '1px solid #27272a', background: '#09090b',
+            border: '1px solid var(--border-hover)', background: 'var(--bg)',
             padding: '64px 32px', textAlign: 'center',
           }}>
             <h2 className="cta-title" style={{
               fontSize: '30px', fontWeight: 700,
-              letterSpacing: '-0.5px', color: '#fff', maxWidth: '672px', margin: '0 auto',
+              letterSpacing: '-0.5px', color: 'var(--text)', maxWidth: '672px', margin: '0 auto',
             }}>{t.cta.title}</h2>
             <p className="cta-desc" style={{
               marginTop: '16px', fontSize: '16px', lineHeight: 1.7,
-              color: '#a1a1aa', maxWidth: '576px', marginLeft: 'auto', marginRight: 'auto',
+              color: 'var(--text-secondary)', maxWidth: '576px', marginLeft: 'auto', marginRight: 'auto',
             }}>{t.cta.subtitle}</p>
             <div className="cta-buttons" style={{
               marginTop: '40px', display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap',
@@ -463,12 +465,13 @@ export default function Home() {
               <Link to={p('/contact')} style={{
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                 padding: '24px 32px', background: 'transparent',
-                border: '1px solid #27272a', color: '#fff', borderRadius: '6px',
+                border: '1px solid var(--border-hover)', color: 'var(--text)',
+                borderRadius: '6px',
                 fontSize: '16px', fontWeight: 600, boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
                 transition: 'all 0.2s',
               }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor = '#52525b' }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = '#27272a' }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface-hover)'; e.currentTarget.style.borderColor = 'var(--primary)' }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'var(--border-hover)' }}
               >{t.cta.btn2}</Link>
             </div>
           </div>

@@ -138,7 +138,7 @@ export default function Navbar() {
                   background: isDark ? 'rgba(3,7,18,0.98)' : 'rgba(255,255,255,0.98)',
                   backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
                   border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'}`,
-                  borderRadius: '8px',
+                  borderRadius: 0,
                   boxShadow: isDark ? '0 12px 40px rgba(0,0,0,0.5)' : '0 12px 40px rgba(0,0,0,0.1)',
                   animation: 'fadeIn 0.15s ease',
                 }}>
@@ -148,7 +148,7 @@ export default function Navbar() {
                       to={p('/services')}
                       onClick={() => setServicesOpen(false)}
                       style={{
-                        display: 'block', padding: '10px 12px', borderRadius: '6px',
+                        display: 'block', padding: '10px 12px', borderRadius: 0,
                         textDecoration: 'none', transition: 'background 0.15s',
                       }}
                       onMouseEnter={e => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'}

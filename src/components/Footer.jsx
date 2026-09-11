@@ -23,7 +23,7 @@ export default function Footer() {
   const linkLeave = (e) => { e.currentTarget.style.color = '#94A3B8' }
 
   const socialBtnStyle = {
-    width: '42px', height: '42px', borderRadius: '10px',
+    width: '42px', height: '42px', borderRadius: 0,
     border: '1px solid rgba(255,255,255,.1)',
     background: 'rgba(255,255,255,.03)',
     backdropFilter: 'blur(12px)',
@@ -54,7 +54,7 @@ export default function Footer() {
         <div style={{
           background: 'rgba(16,185,129,0.06)',
           border: '1px solid rgba(16,185,129,0.15)',
-          borderRadius: '16px', padding: '40px',
+          borderRadius: 0, padding: '40px',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           flexWrap: 'wrap', gap: '24px', marginBottom: '64px',
         }}>
@@ -66,13 +66,13 @@ export default function Footer() {
             <input
               type="email" placeholder="Email Address" value={email} onChange={e => setEmail(e.target.value)}
               style={{
-                padding: '12px 18px', borderRadius: '10px',
+                padding: '12px 18px', borderRadius: 0,
                 border: '1px solid rgba(255,255,255,.1)', background: 'rgba(255,255,255,.05)',
                 color: '#fff', fontSize: '14px', outline: 'none', width: '260px',
               }}
             />
             <button type="submit" style={{
-              padding: '12px 24px', borderRadius: '10px', border: 'none',
+              padding: '12px 24px', borderRadius: 0, border: 'none',
               background: '#10B981', color: '#000', fontSize: '14px', fontWeight: 700,
               cursor: 'pointer', transition: 'all 0.25s',
             }}

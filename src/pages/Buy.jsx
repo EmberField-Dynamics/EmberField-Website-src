@@ -145,7 +145,7 @@ export default function Buy() {
         <Box sx={{ minHeight: '100vh', pt: '120px', px: 2, pb: 8, display: 'flex', justifyContent: 'center' }}>
           <Card
             elevation={0}
-            sx={{ maxWidth: 640, width: '100%', textAlign: 'center', p: { xs: 4, md: 6 }, border: '1px solid', borderColor: 'divider', borderRadius: 3 }}
+            sx={{ maxWidth: 640, width: '100%', textAlign: 'center', p: { xs: 4, md: 6 }, border: '1px solid', borderColor: 'divider', borderRadius: 0 }}
           >
             <CheckCircleRoundedIcon sx={{ color: '#10B981', fontSize: 64, mb: 2 }} />
             <Typography variant="h4" sx={{ fontWeight: 900, letterSpacing: '-0.5px', mb: 1.5 }}>
@@ -157,7 +157,7 @@ export default function Buy() {
             <Box
               sx={{
                 p: 2,
-                borderRadius: 2,
+                borderRadius: 0,
                 backgroundColor: chipBg,
                 border: '1px solid',
                 borderColor: 'divider',
@@ -189,7 +189,7 @@ export default function Buy() {
         <Box sx={{ minHeight: '100vh', pt: '120px', px: 2, pb: 8, display: 'flex', justifyContent: 'center' }}>
           <Card
             elevation={0}
-            sx={{ maxWidth: 640, width: '100%', textAlign: 'center', p: { xs: 4, md: 6 }, border: '1px solid', borderColor: 'divider', borderRadius: 3 }}
+            sx={{ maxWidth: 640, width: '100%', textAlign: 'center', p: { xs: 4, md: 6 }, border: '1px solid', borderColor: 'divider', borderRadius: 0 }}
           >
             <Typography variant="h4" sx={{ fontWeight: 900, letterSpacing: '-0.5px', mb: 1.5 }}>
               {t.checkout.notFoundTitle}

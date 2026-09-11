@@ -22,13 +22,13 @@ export default function NotFound() {
         </p>
         <Link to={`/${lang}/`} style={{
           display: 'inline-flex', alignItems: 'center', gap: '8px',
-          padding: '14px 32px', borderRadius: '12px', border: 'none',
+          padding: '14px 32px', borderRadius: 0, border: 'none',
           background: 'var(--primary)', color: '#000',
           fontSize: '15px', fontWeight: 700, transition: 'all 0.25s',
-          boxShadow: '0 0 20px rgba(16,185,129,0.2)',
+          boxShadow: 'none',
         }}
-          onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 0 40px rgba(16,185,129,0.35)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
-          onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 0 20px rgba(16,185,129,0.2)'; e.currentTarget.style.transform = 'none' }}
+          onMouseEnter={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(-2px)' }}
+          onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none' }}
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
           {t.notFound.home}

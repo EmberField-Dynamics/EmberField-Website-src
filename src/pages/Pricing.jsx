@@ -54,21 +54,21 @@ export default function Pricing() {
         {plans.map((plan, i) => (
           <Reveal key={i} delay={i * 120} style={{ height: '100%' }}>
           <div style={{
-            padding: '40px 36px', borderRadius: '20px',
+            padding: '40px 36px', borderRadius: 0,
             border: plan.popular ? '2px solid var(--primary)' : '1px solid var(--border)',
             background: plan.popular ? 'linear-gradient(180deg, rgba(16,185,129,0.08) 0%, var(--card-bg) 100%)' : 'var(--card-bg)',
             backdropFilter: 'blur(10px)', position: 'relative',
             transition: 'all 0.3s',
             transform: plan.popular ? 'scale(1.02)' : 'none',
-            boxShadow: plan.popular ? '0 8px 40px rgba(16,185,129,0.15)' : 'none',
+            boxShadow: plan.popular ? 'none' : 'none',
           }}
-            onMouseEnter={e => { if (!plan.popular) { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 40px rgba(16,185,129,0.1)' } }}
+            onMouseEnter={e => { if (!plan.popular) { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = 'none' } }}
             onMouseLeave={e => { if (!plan.popular) { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' } }}
           >
             {plan.popular && (
               <div style={{
                 position: 'absolute', top: '-12px', left: '50%', transform: 'translateX(-50%)',
-                padding: '4px 16px', borderRadius: '20px',
+                padding: '4px 16px', borderRadius: 0,
                 background: 'var(--primary)', color: '#000',
                 fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px',
               }}>{t.pricing.popular}</div>
@@ -91,14 +91,14 @@ export default function Pricing() {
               ))}
             </ul>
             <Link to={p(`/buy/${plan.id}`)} style={{
-              display: 'block', width: '100%', padding: '14px', borderRadius: '12px',
+              display: 'block', width: '100%', padding: '14px', borderRadius: 0,
               border: plan.popular ? 'none' : '1px solid var(--border)',
               background: plan.popular ? 'var(--primary)' : 'var(--input-bg)',
               color: plan.popular ? '#000' : 'var(--text)',
               fontSize: '15px', fontWeight: 700, textAlign: 'center',
               transition: 'all 0.25s',
             }}
-              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; if (plan.popular) e.currentTarget.style.boxShadow = '0 0 30px rgba(16,185,129,0.3)'; else e.currentTarget.style.background = 'var(--surface-hover)' }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; if (plan.popular) e.currentTarget.style.boxShadow = 'none'; else e.currentTarget.style.background = 'var(--surface-hover)' }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'; if (!plan.popular) e.currentTarget.style.background = 'var(--input-bg)' }}
             >{plan.btn}</Link>
           </div>

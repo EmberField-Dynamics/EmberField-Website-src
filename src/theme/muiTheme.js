@@ -22,7 +22,7 @@ export default function createAppTheme(mode) {
     typography: {
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
     },
-    shape: { borderRadius: 12 },
+    shape: { borderRadius: 0 },
     components: {
       MuiTypography: {
         defaultProps: { fontFamily: 'inherit' },
@@ -34,7 +34,7 @@ export default function createAppTheme(mode) {
         styleOverrides: {
           root: ({ theme }) => ({
             backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
-            borderRadius: 10,
+            borderRadius: 0,
             '& .MuiOutlinedInput-notchedOutline': { borderColor: theme.palette.divider },
             '&:hover .MuiOutlinedInput-notchedOutline': {
               borderColor: 'rgba(16,185,129,0.6)',
@@ -63,8 +63,8 @@ export default function createAppTheme(mode) {
       },
       MuiButton: {
         styleOverrides: {
-          root: { fontWeight: 700, textTransform: 'none', borderRadius: 10 },
-          containedPrimary: { boxShadow: 'none', color: '#000', '&:hover': { boxShadow: '0 0 30px rgba(16,185,129,0.3)' } },
+          root: { fontWeight: 700, textTransform: 'none', borderRadius: 0 },
+          containedPrimary: { boxShadow: 'none', color: '#000', '&:hover': { boxShadow: 'none' } },
         },
       },
       MuiStepLabel: {

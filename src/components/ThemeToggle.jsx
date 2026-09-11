@@ -8,7 +8,7 @@ export default function ThemeToggle() {
       onClick={toggleTheme}
       title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
       style={{
-        width: '38px', height: '38px', borderRadius: '10px',
+        width: '38px', height: '38px', borderRadius: 0,
         border: '1px solid var(--border)', background: 'var(--input-bg)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         cursor: 'pointer', color: 'var(--text)', transition: 'all 0.2s',

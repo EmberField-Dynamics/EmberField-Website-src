@@ -14,7 +14,7 @@ export default function Contact() {
   }
 
   const inputStyle = {
-    width: '100%', padding: '14px 18px', borderRadius: '12px',
+    width: '100%', padding: '14px 18px', borderRadius: 0,
     border: '1px solid var(--border)', background: 'var(--input-bg)',
     color: 'var(--text)', fontSize: '15px', outline: 'none',
     transition: 'border-color 0.2s',
@@ -42,7 +42,7 @@ export default function Contact() {
         display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '48px',
       }} className="contact-grid">
         <form onSubmit={handleSubmit} style={{
-          padding: '40px', borderRadius: '20px',
+          padding: '40px', borderRadius: 0,
           border: '1px solid var(--border)', background: 'var(--card-bg)',
           backdropFilter: 'blur(10px)',
         }}>
@@ -93,15 +93,15 @@ export default function Contact() {
             />
           </div>
           <button type="submit" style={{
-            marginTop: '24px', padding: '16px 40px', borderRadius: '12px',
+            marginTop: '24px', padding: '16px 40px', borderRadius: 0,
             border: 'none', background: sent ? '#059669' : 'var(--primary)',
             color: '#000', fontSize: '15px', fontWeight: 700,
             cursor: 'pointer', transition: 'all 0.25s',
-            boxShadow: '0 0 20px rgba(16,185,129,0.2)',
+            boxShadow: 'none',
             width: '100%',
           }}
-            onMouseEnter={e => { if (!sent) { e.currentTarget.style.boxShadow = '0 0 40px rgba(16,185,129,0.35)'; e.currentTarget.style.transform = 'translateY(-2px)' }}}
-            onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 0 20px rgba(16,185,129,0.2)'; e.currentTarget.style.transform = 'none' }}
+            onMouseEnter={e => { if (!sent) { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(-2px)' }}}
+            onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none' }}
           >
             {sent ? '\u2713 Message Sent!' : t.contact.send}
           </button>
@@ -109,7 +109,7 @@ export default function Contact() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <div style={{
-            padding: '32px', borderRadius: '16px',
+            padding: '32px', borderRadius: 0,
             border: '1px solid var(--border)', background: 'var(--card-bg)',
           }}>
             <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '24px' }}>{t.contact.info}</h3>
@@ -130,7 +130,7 @@ export default function Contact() {
           </div>
 
           <div style={{
-            flex: 1, minHeight: '200px', borderRadius: '16px',
+            flex: 1, minHeight: '200px', borderRadius: 0,
             border: '1px solid var(--border)', background: 'var(--card-bg)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             overflow: 'hidden',

@@ -30,12 +30,12 @@ export default function Impact() {
         {stats.map((s, i) => (
           <Reveal key={i} delay={i * 90}>
           <div style={{
-            padding: '48px 36px', borderRadius: '16px',
+            padding: '48px 36px', borderRadius: 0,
             border: '1px solid var(--border)', background: 'var(--card-bg)',
             backdropFilter: 'blur(10px)', textAlign: 'center',
             transition: 'all 0.3s',
           }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 40px rgba(16,185,129,0.1)' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = 'none' }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}
           >
             <div style={{
@@ -55,7 +55,7 @@ export default function Impact() {
 
       <Reveal delay={150}>
       <div style={{
-        marginTop: '80px', padding: '48px', borderRadius: '20px',
+        marginTop: '80px', padding: '48px', borderRadius: 0,
         border: '1px solid var(--border)', background: 'var(--card-bg)',
         backdropFilter: 'blur(10px)', textAlign: 'center',
       }}>

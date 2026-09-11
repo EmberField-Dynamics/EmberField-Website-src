@@ -80,7 +80,7 @@ export default function Services() {
       <Reveal style={{ textAlign: 'center', marginBottom: '64px' }}>
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: '8px',
-          padding: '6px 18px', borderRadius: '50px',
+          padding: '6px 18px', borderRadius: 0,
           border: '1px solid var(--badge-border)', background: 'var(--badge-bg)',
           marginBottom: '24px', fontSize: '12px', fontWeight: 600,
           color: 'var(--primary)', letterSpacing: '1px', textTransform: 'uppercase',
@@ -102,21 +102,21 @@ export default function Services() {
         {products.map((product, i) => (
           <Reveal key={i} delay={i * 120} style={{ height: '100%' }}>
           <div style={{
-            padding: '40px 36px', borderRadius: '20px',
+            padding: '40px 36px', borderRadius: 0,
             border: product.popular ? '2px solid var(--primary)' : '1px solid var(--border)',
             background: product.popular ? 'linear-gradient(180deg, rgba(16,185,129,0.08) 0%, var(--card-bg) 100%)' : 'var(--card-bg)',
             backdropFilter: 'blur(10px)', position: 'relative',
             transition: 'all 0.3s',
             transform: product.popular ? 'scale(1.02)' : 'none',
-            boxShadow: product.popular ? '0 8px 40px rgba(16,185,129,0.15)' : 'none',
+            boxShadow: product.popular ? 'none' : 'none',
           }}
-            onMouseEnter={e => { if (!product.popular) { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 40px rgba(16,185,129,0.1)' }}}
+            onMouseEnter={e => { if (!product.popular) { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = 'none' }}}
             onMouseLeave={e => { if (!product.popular) { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}}
           >
             {product.popular && (
               <div style={{
                 position: 'absolute', top: '-12px', left: '50%', transform: 'translateX(-50%)',
-                padding: '4px 16px', borderRadius: '20px',
+                padding: '4px 16px', borderRadius: 0,
                 background: 'var(--primary)', color: '#000',
                 fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px',
                 display: 'flex', alignItems: 'center', gap: '6px',
@@ -153,14 +153,14 @@ export default function Services() {
             </ul>
 
             <a href={product.link} style={{
-              display: 'block', width: '100%', padding: '14px', borderRadius: '12px',
+              display: 'block', width: '100%', padding: '14px', borderRadius: 0,
               border: product.popular ? 'none' : '1px solid var(--border)',
               background: product.popular ? 'var(--primary)' : 'var(--input-bg)',
               color: product.popular ? '#000' : 'var(--text)',
               fontSize: '15px', fontWeight: 700, textAlign: 'center',
               transition: 'all 0.25s', cursor: 'pointer',
             }}
-              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; if (product.popular) e.currentTarget.style.boxShadow = '0 0 30px rgba(16,185,129,0.3)'; else e.currentTarget.style.background = 'var(--surface-hover)' }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; if (product.popular) e.currentTarget.style.boxShadow = 'none'; else e.currentTarget.style.background = 'var(--surface-hover)' }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'; if (!product.popular) e.currentTarget.style.background = 'var(--input-bg)' }}
             >Get Started</a>
           </div>
@@ -180,15 +180,15 @@ export default function Services() {
         {infoCards.map((card, i) => (
           <Reveal key={i} delay={i * 100}>
           <div style={{
-            padding: '36px', borderRadius: '16px',
+            padding: '36px', borderRadius: 0,
             border: '1px solid var(--border)', background: 'var(--card-bg)',
             backdropFilter: 'blur(10px)', transition: 'all 0.3s',
           }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 40px rgba(16,185,129,0.1)' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = 'none' }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}
           >
             <div style={{
-              width: '56px', height: '56px', borderRadius: '14px',
+              width: '56px', height: '56px', borderRadius: 0,
               background: 'var(--badge-bg)', border: '1px solid var(--badge-border)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               marginBottom: '20px',
