@@ -12,9 +12,9 @@ export default function AuthCallback() {
   useEffect(() => {
     if (loading || !user || handled.current) return
     handled.current = true
-    if (user.role === 'admin') navigate(`/${lang}/admin`, { replace: true })
+    if (user.role === 'admin' || user.role === 'staff') navigate(`/${lang}/admin`, { replace: true })
     else if (user.passwordSet === false) navigate(`/${lang}/setup`, { replace: true })
-    else navigate(`/${lang}/member`, { replace: true })
+    else navigate(`/${lang}/dashboard`, { replace: true })
   }, [user, loading, lang, navigate])
 
   return (

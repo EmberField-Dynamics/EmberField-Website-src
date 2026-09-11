@@ -25,7 +25,7 @@ export default function Login() {
     const result = await signIn(form.email, form.password)
     setLoading(false)
     if (result.success) {
-      navigate(result.role === 'admin' ? p('/admin') : p('/member'))
+      navigate(result.role === 'admin' || result.role === 'staff' ? p('/admin') : p('/dashboard'))
     } else {
       setError(result.error)
     }
