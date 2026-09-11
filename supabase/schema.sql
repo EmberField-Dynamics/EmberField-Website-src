@@ -9,7 +9,7 @@ create table if not exists public.profiles (
   email text unique not null,
   full_name text not null default '',
   avatar_url text default null,
-  role text not null default 'member' check (role in ('member', 'admin', 'banned')),
+  role text not null default 'member' check (role in ('member', 'staff', 'admin', 'banned')),
   password_set boolean not null default true,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
@@ -45,6 +45,52 @@ $$;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
+
+-- Prevent multiple accounts with the same email (case-insensitive).
+-- Blocks signup for an email that already exists on an active account,
+-- regardless of provider (email/password, Google, etc.).
+create or replace function public.prevent_duplicate_email()
+returns trigger
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  has_deleted_at boolean;
+  email_taken boolean;
+begin
+  select count(*) > 0
+    into has_deleted_at
+    from information_schema.columns
+   where table_schema = 'auth'
+     and table_name = 'users'
+     and column_name = 'deleted_at';
+
+  if has_deleted_at then
+    select exists (
+      select 1 from auth.users u
+       where lower(u.email) = lower(new.email)
+         and u.id <> new.id
+         and u.deleted_at is null
+    ) into email_taken;
+  else
+    select exists (
+      select 1 from auth.users u
+       where lower(u.email) = lower(new.email)
+         and u.id <> new.id
+    ) into email_taken;
+  end if;
+
+  if email_taken then
+    raise exception 'An account with this email already exists.';
+  end if;
+
+  return new;
+end;
+$$;
+
+create trigger on_auth_user_before_insert
+  before insert on auth.users
+  for each row execute procedure public.prevent_duplicate_email();
 
 -- Helpers: current user id, role checks
 create or replace function public.current_profile_id()

@@ -22,7 +22,7 @@ export default function SetupAccount() {
     const result = await completeGoogleSetup(password)
     setLoading(false)
     if (result.success) {
-      navigate(p('/member'), { replace: true })
+      navigate(p('/dashboard'), { replace: true })
     } else {
       setError(result.error)
     }

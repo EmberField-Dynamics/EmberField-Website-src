@@ -14,10 +14,21 @@ import Pricing from './pages/Pricing'
 import Contact from './pages/Contact'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import Admin from './pages/Admin'
-import MemberDashboard from './pages/MemberDashboard'
 import SetupAccount from './pages/SetupAccount'
 import AuthCallback from './pages/AuthCallback'
+import Dashboard from './pages/Dashboard'
+import Support from './pages/Support'
+import NewTicket from './pages/NewTicket'
+import TicketDetail from './pages/TicketDetail'
+import Settings from './pages/Settings'
+import AdminLayout from './pages/admin/AdminLayout'
+import AdminOverview from './pages/admin/AdminOverview'
+import ManageProjects from './pages/admin/ManageProjects'
+import ManageTeam from './pages/admin/ManageTeam'
+import ManageRoles from './pages/admin/ManageRoles'
+import ManageUsers from './pages/admin/ManageUsers'
+import AdminTickets from './pages/admin/AdminTickets'
+import AdminLicenses from './pages/admin/AdminLicenses'
 import NotFound from './pages/NotFound'
 
 function RequireAdmin({ children }) {
@@ -28,12 +39,25 @@ function RequireAdmin({ children }) {
   return children
 }
 
+function RequireStaff({ children }) {
+  const { user, loading } = useAuth()
+  const { lang } = useParams()
+  if (loading) return null
+  if (!user || (user.role !== 'staff' && user.role !== 'admin')) return <Navigate to={`/${lang}/404`} replace />
+  return children
+}
+
 function RequireAuth({ children }) {
   const { user, loading } = useAuth()
   const { lang } = useParams()
   if (loading) return null
   if (!user) return <Navigate to={`/${lang}/login`} replace />
   return children
+}
+
+function RedirectTo({ to }) {
+  const { lang } = useParams()
+  return <Navigate to={`/${lang}${to}`} replace />
 }
 
 function ScrollToTop() {
@@ -91,9 +115,22 @@ function LangLayout() {
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="auth/callback" element={<AuthCallback />} />
-            <Route path="admin" element={<RequireAdmin><Admin /></RequireAdmin>} />
             <Route path="setup" element={<RequireAuth><SetupAccount /></RequireAuth>} />
-            <Route path="member" element={<RequireAuth><MemberDashboard /></RequireAuth>} />
+            <Route path="dashboard" element={<RequireAuth><Dashboard /></RequireAuth>} />
+            <Route path="support" element={<RequireAuth><Support /></RequireAuth>} />
+            <Route path="support/new" element={<RequireAuth><NewTicket /></RequireAuth>} />
+            <Route path="support/ticket-:slug" element={<RequireAuth><TicketDetail /></RequireAuth>} />
+            <Route path="settings/:section" element={<RequireAuth><Settings /></RequireAuth>} />
+            <Route path="admin" element={<RequireStaff><AdminLayout /></RequireStaff>}>
+              <Route index element={<AdminOverview />} />
+              <Route path="projects" element={<ManageProjects />} />
+              <Route path="team" element={<ManageTeam />} />
+              <Route path="roles" element={<ManageRoles />} />
+              <Route path="users" element={<ManageUsers />} />
+              <Route path="tickets" element={<AdminTickets />} />
+              <Route path="licenses" element={<AdminLicenses />} />
+            </Route>
+            <Route path="member" element={<RedirectTo to="/dashboard" />} />
             <Route path="404" element={<NotFound />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
