@@ -23,17 +23,17 @@ export default function ImageUpload({ value, onChange }) {
       <div
         onClick={() => fileRef.current?.click()}
         style={{
-          width: '80px', height: '80px', border: '2px dashed #27272a',
-          background: '#09090b', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          width: '80px', height: '80px', border: '2px dashed var(--border)',
+          background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center',
           cursor: 'pointer', overflow: 'hidden', position: 'relative', transition: 'border-color 0.15s',
         }}
         onMouseEnter={e => { e.currentTarget.style.borderColor = '#10B981' }}
-        onMouseLeave={e => { e.currentTarget.style.borderColor = '#27272a' }}
+        onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
       >
         {preview ? (
           <img src={preview} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         ) : (
-          <span style={{ fontSize: '11px', color: '#71717a', fontFamily: 'monospace', textTransform: 'uppercase' }}>Add</span>
+          <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontFamily: 'monospace', textTransform: 'uppercase' }}>Add</span>
         )}
       </div>
       {preview && (

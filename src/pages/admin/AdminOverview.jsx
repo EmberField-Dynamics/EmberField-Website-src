@@ -38,14 +38,14 @@ export default function AdminOverview() {
   return (
     <div>
       <div style={{ marginBottom: '20px' }}>
-        <div style={{ fontSize: '11px', color: '#71717a', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: MONO, marginBottom: '6px' }}>Signed in as</div>
+        <div style={{ fontSize: '11px', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: MONO, marginBottom: '6px' }}>Signed in as</div>
         <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text)' }}>{user?.name} — {user?.role}</div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '12px', marginBottom: '32px' }}>
         {tiles.map(t => (
           <Card key={t.label} style={{ padding: '20px' }}>
-            <div style={{ fontSize: '11px', color: '#71717a', textTransform: 'uppercase', letterSpacing: '1.5px', fontFamily: MONO }}>{t.label}</div>
+            <div style={{ fontSize: '11px', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1.5px', fontFamily: MONO }}>{t.label}</div>
             <div style={{ fontSize: '32px', fontWeight: 800, color: '#10B981', marginTop: '8px', fontFamily: MONO }}>
               {loading ? '…' : String(t.value).padStart(2, '0')}
             </div>
@@ -54,7 +54,7 @@ export default function AdminOverview() {
       </div>
 
       <Card>
-        <div style={{ fontSize: '11px', color: '#71717a', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: MONO, marginBottom: '12px' }}>Status</div>
+        <div style={{ fontSize: '11px', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: MONO, marginBottom: '12px' }}>Status</div>
         <p style={{ fontSize: '14px', lineHeight: 1.7, color: 'var(--text)' }}>
           The full site is split across dedicated sections — Projects, Team, Roles, Users, Tickets and Licenses — reachable from the panel on the left.
           Tickets can be viewed and replied to by any Staff or Admin account.

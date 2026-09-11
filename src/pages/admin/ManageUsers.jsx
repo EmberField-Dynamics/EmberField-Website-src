@@ -56,14 +56,14 @@ export default function ManageUsers() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <div style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text)' }}>Users</div>
-          <div style={{ fontSize: '12px', color: '#71717a', marginTop: '2px' }}>{users.length} registered accounts.</div>
+          <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>{users.length} registered accounts.</div>
         </div>
         <Btn onClick={load}>{loading ? '…' : 'Refresh'}</Btn>
       </div>
 
       {msg && <div style={{ marginBottom: '16px', padding: '10px 14px', border: '1px solid rgba(16,185,129,0.3)', background: 'rgba(16,185,129,0.08)', fontSize: '13px', color: '#10B981', fontFamily: 'monospace' }}>{msg}</div>}
 
-      {loading && <div style={{ color: '#71717a', fontFamily: 'monospace', fontSize: '13px', padding: '20px 0' }}>LOADING USERS…</div>}
+      {loading && <div style={{ color: 'var(--text-secondary)', fontFamily: 'monospace', fontSize: '13px', padding: '20px 0' }}>LOADING USERS…</div>}
       {!loading && users.length === 0 && <Empty text="No registered users yet." />}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -76,9 +76,9 @@ export default function ManageUsers() {
                 {u.id === user?.id && <Badge tone="accent">You</Badge>}
                 {u.email === 'mcminedime@gmail.com' && <Badge tone="accent">Owner</Badge>}
               </div>
-              <div style={{ fontSize: '12px', color: '#71717a', fontFamily: 'monospace' }}>{u.email}</div>
+              <div style={{ fontSize: '12px', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>{u.email}</div>
             </div>
-            <div style={{ fontSize: '11px', color: '#71717a', fontFamily: 'monospace' }}>
+            <div style={{ fontSize: '11px', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>
               {u.password_set ? 'Password' : 'Google only'}
             </div>
             <Select value={u.role} disabled={u.id === user?.id}

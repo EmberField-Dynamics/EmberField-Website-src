@@ -41,16 +41,16 @@ export default function AdminLayout() {
             <Link key={l.id || 'overview'} to={l.id ? `${base}/${l.id}` : base} style={{
               padding: '10px 14px', fontSize: '12px', fontWeight: 600, letterSpacing: '0.5px',
               textTransform: 'uppercase', fontFamily: 'monospace',
-              color: active === l.id ? '#10B981' : '#71717a',
+              color: active === l.id ? '#10B981' : 'var(--text-secondary)',
               background: active === l.id ? 'rgba(16,185,129,0.08)' : 'transparent',
-              border: `1px solid ${active === l.id ? 'rgba(16,185,129,0.3)' : '#252529'}`,
+              border: `1px solid ${active === l.id ? 'rgba(16,185,129,0.3)' : 'var(--border)'}`,
               display: 'flex', alignItems: 'center', gap: '10px',
             }}>
               <span>{l.icon}</span> {l.label}
             </Link>
           ))}
-          <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid #27272a' }}>
-            <Link to={p('/dashboard')} style={{ padding: '10px 14px', fontSize: '12px', fontWeight: 600, letterSpacing: '0.5px', textTransform: 'uppercase', fontFamily: 'monospace', color: '#71717a', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid var(--border)' }}>
+            <Link to={p('/dashboard')} style={{ padding: '10px 14px', fontSize: '12px', fontWeight: 600, letterSpacing: '0.5px', textTransform: 'uppercase', fontFamily: 'monospace', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '10px' }}>
               <span>←</span> Back to Dashboard
             </Link>
           </div>

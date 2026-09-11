@@ -18,7 +18,7 @@ export default function ManageRoles() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <div style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text)' }}>Roles</div>
-          <div style={{ fontSize: '12px', color: '#71717a', marginTop: '2px' }}>Drag to reorder — the top role appears first on the Developers page.</div>
+          <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>Drag to reorder — the top role appears first on the Developers page.</div>
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <Input placeholder="New role name…" value={newRoleName} onChange={e => setNewRoleName(e.target.value)}
@@ -32,11 +32,11 @@ export default function ManageRoles() {
         {roles.map((role, idx) => (
           <div key={role.id} draggable onDragStart={e => onDragStart(e, idx)} onDragOver={e => onDragOver(e, idx)} onDragEnd={onDragEnd} style={{
             display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px',
-            border: dragIdx === idx ? '1px solid #10B981' : '1px solid #27272a',
-            background: dragIdx === idx ? 'rgba(16,185,129,0.06)' : '#18181b',
+            border: dragIdx === idx ? '1px solid #10B981' : '1px solid var(--border)',
+            background: dragIdx === idx ? 'rgba(16,185,129,0.06)' : 'var(--surface)',
             cursor: 'grab', opacity: dragIdx === idx ? 0.7 : 1,
           }}>
-            <span style={{ fontSize: '11px', color: '#71717a', fontFamily: 'monospace', minWidth: '28px' }}>#{String(idx + 1).padStart(2, '0')}</span>
+            <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontFamily: 'monospace', minWidth: '28px' }}>#{String(idx + 1).padStart(2, '0')}</span>
             {editingRole === role.id ? (
               <Input autoFocus value={roleEditName} onChange={e => setRoleEditName(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter') { updateRole(role.id, roleEditName); setEditingRole(null) } if (e.key === 'Escape') setEditingRole(null) }}
@@ -44,7 +44,7 @@ export default function ManageRoles() {
             ) : (
               <span style={{ flex: 1, fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{role.name}</span>
             )}
-            <span style={{ fontSize: '11px', color: '#71717a', fontFamily: 'monospace' }}>
+            <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>
               {members.filter(m => m.roleId === role.id).length} MEMBER{(members.filter(m => m.roleId === role.id).length === 1 ? '' : 'S')}
             </span>
             <div style={{ display: 'flex', gap: '6px' }}>

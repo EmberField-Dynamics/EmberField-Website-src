@@ -74,11 +74,11 @@ export default function TicketDetail() {
     }
   }, [user?.id])
 
-  if (loading) return <div style={{ padding: '120px 24px', textAlign: 'center', color: '#71717a', fontFamily: 'monospace' }}>LOADING…</div>
+  if (loading) return <div style={{ padding: '120px 24px', textAlign: 'center', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>LOADING…</div>
   if (!user) return <Navigate to={p('/login')} replace />
   if (notFound) return (
     <div style={{ padding: '120px 24px', textAlign: 'center' }}>
-      <div style={{ fontSize: '14px', color: '#71717a', fontFamily: MONO, marginBottom: '20px' }}>TICKET NOT FOUND</div>
+      <div style={{ fontSize: '14px', color: 'var(--text-secondary)', fontFamily: MONO, marginBottom: '20px' }}>TICKET NOT FOUND</div>
       <Link to={p('/support')}><Btn>Back to Tickets</Btn></Link>
     </div>
   )
@@ -148,7 +148,7 @@ export default function TicketDetail() {
   return (
     <div style={{ maxWidth: '880px', margin: '0 auto', padding: '104px 24px 64px' }}>
       <div style={{ marginBottom: '20px' }}>
-        <Link to={p('/support')} style={{ fontSize: '12px', color: '#71717a', fontFamily: MONO, textTransform: 'uppercase', letterSpacing: '1px' }}>← ALL TICKETS</Link>
+        <Link to={p('/support')} style={{ fontSize: '12px', color: 'var(--text-secondary)', fontFamily: MONO, textTransform: 'uppercase', letterSpacing: '1px' }}>← ALL TICKETS</Link>
       </div>
 
       <Card style={{ marginBottom: '24px' }}>
@@ -185,14 +185,14 @@ export default function TicketDetail() {
 
       <Card style={{ padding: '0' }}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {loadingData && <div style={{ padding: '32px', color: '#71717a', fontFamily: MONO, fontSize: '13px' }}>LOADING TRANSCRIPT…</div>}
+          {loadingData && <div style={{ padding: '32px', color: 'var(--text-secondary)', fontFamily: MONO, fontSize: '13px' }}>LOADING TRANSCRIPT…</div>}
           {messages.map(m => {
             const mine = m.author_id === user.id
             const authorName = m.author_name || (profiles[m.author_id]?.full_name) || 'Team Member'
             const authorAvatar = profiles[m.author_id]?.avatar_url || (mine ? user.avatar : null)
             return (
               <div key={m.id} style={{
-                padding: '20px 24px', borderBottom: '1px solid #27272a',
+                padding: '20px 24px', borderBottom: '1px solid var(--border)',
                 background: mine ? 'rgba(16,185,129,0.04)' : 'transparent',
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
@@ -201,7 +201,7 @@ export default function TicketDetail() {
                     <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text)' }}>{authorName}</span>
                     {mine && <Badge tone="accent" style={{ marginLeft: '8px' }}>You</Badge>}
                   </div>
-                  <span style={{ fontSize: '11px', color: '#71717a', fontFamily: MONO }}>
+                  <span style={{ fontSize: '11px', color: 'var(--text-secondary)', fontFamily: MONO }}>
                     {fmtTime(m.created_at)}{m.edited_at && ' · edited'}
                   </span>
                   {mine && (
@@ -226,7 +226,7 @@ export default function TicketDetail() {
         </div>
 
         <div style={{ padding: '20px 24px' }}>
-          <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: '#71717a', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '8px' }}>
+          <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '8px' }}>
             {ticket.status === 'open' ? 'Reply' : 'Closed — reopen to reply'}
           </label>
           <TextArea value={reply} onChange={e => setReply(e.target.value)} disabled={ticket.status !== 'open'}

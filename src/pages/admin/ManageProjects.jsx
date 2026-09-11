@@ -27,7 +27,7 @@ export default function ManageProjects() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <div style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text)' }}>Projects</div>
-          <div style={{ fontSize: '12px', color: '#71717a', marginTop: '2px' }}>{projects.length} listed on the Home page.</div>
+          <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>{projects.length} listed on the Home page.</div>
         </div>
         <Btn tone="primary" onClick={() => { reset(); setShowAdd(true) }}>Add Project</Btn>
       </div>
@@ -65,13 +65,13 @@ export default function ManageProjects() {
         {projects.map(proj => (
           <Card key={proj.id}>
             <div style={{ display: 'flex', gap: '12px', marginBottom: '12px' }}>
-              {proj.image && <img src={proj.image} alt="" style={{ width: '48px', height: '48px', objectFit: 'cover', border: '1px solid #27272a' }} />}
+              {proj.image && <img src={proj.image} alt="" style={{ width: '48px', height: '48px', objectFit: 'cover', border: '1px solid var(--border)' }} />}
               <div>
                 <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text)' }}>{proj.name}</div>
                 {proj.link && <div style={{ fontSize: '11px', color: '#10B981', fontFamily: 'monospace', marginTop: '2px' }}>{proj.link}</div>}
               </div>
             </div>
-            {proj.description && <p style={{ fontSize: '13px', color: '#71717a', lineHeight: 1.6, marginBottom: '12px' }}>{proj.description}</p>}
+            {proj.description && <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '12px' }}>{proj.description}</p>}
             <div style={{ display: 'flex', gap: '6px', marginBottom: '14px', flexWrap: 'wrap' }}>
               {proj.tags.map((t, i) => (
                 <span key={i} style={{ fontSize: '10px', color: '#10B981', border: '1px solid rgba(16,185,129,0.3)', padding: '2px 8px', fontFamily: 'monospace', textTransform: 'uppercase' }}>{t}</span>

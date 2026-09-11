@@ -26,7 +26,7 @@ export default function NewTicket() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
-  if (loading) return <div style={{ padding: '120px 24px', textAlign: 'center', color: '#71717a', fontFamily: 'monospace' }}>LOADING…</div>
+  if (loading) return <div style={{ padding: '120px 24px', textAlign: 'center', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>LOADING…</div>
   if (!user) return <Navigate to={p('/login')} replace />
 
   const handleSubmit = async (e) => {
@@ -68,9 +68,9 @@ export default function NewTicket() {
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '24px' }}>
             {['general', 'technical', 'billing'].map(c => (
               <button type="button" key={c} onClick={() => setCategory(c)} style={{
-                padding: '8px 16px', border: `1px solid ${category === c ? '#10B981' : '#27272a'}`,
+                padding: '8px 16px', border: `1px solid ${category === c ? '#10B981' : 'var(--border)'}`,
                 background: category === c ? 'rgba(16,185,129,0.1)' : 'transparent',
-                color: category === c ? '#10B981' : '#a1a1aa', fontSize: '12px', fontWeight: 600,
+                color: category === c ? '#10B981' : 'var(--text-secondary)', fontSize: '12px', fontWeight: 600,
                 cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '1px',
               }}>
                 {c}

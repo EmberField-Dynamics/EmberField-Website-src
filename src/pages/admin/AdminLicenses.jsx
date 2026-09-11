@@ -74,7 +74,7 @@ export default function AdminLicenses() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <div style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text)' }}>Licenses</div>
-          <div style={{ fontSize: '12px', color: '#71717a', marginTop: '2px' }}>{licenses.length} issued licenses.</div>
+          <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>{licenses.length} issued licenses.</div>
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <Btn onClick={load}>{loading ? '…' : 'Refresh'}</Btn>
@@ -87,7 +87,7 @@ export default function AdminLicenses() {
       {showAdd && (
         <form onSubmit={submit} style={{ marginBottom: '24px' }}>
           <Card>
-            <div style={{ fontSize: '11px', color: '#71717a', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '16px', fontFamily: 'monospace' }}>Issue New License</div>
+            <div style={{ fontSize: '11px', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '16px', fontFamily: 'monospace' }}>Issue New License</div>
             <div className="lic-form" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
               <Field label="Assigned To">
                 <Select value={form.user_id} onChange={e => setForm({ ...form, user_id: e.target.value })}>
@@ -110,7 +110,7 @@ export default function AdminLicenses() {
         </form>
       )}
 
-      {loading && <div style={{ color: '#71717a', fontFamily: 'monospace', fontSize: '13px', padding: '20px 0' }}>LOADING LICENSES…</div>}
+      {loading && <div style={{ color: 'var(--text-secondary)', fontFamily: 'monospace', fontSize: '13px', padding: '20px 0' }}>LOADING LICENSES…</div>}
       {!loading && licenses.length === 0 && <Empty text="No licenses issued yet." />}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -118,11 +118,11 @@ export default function AdminLicenses() {
           <Card key={l.id} style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap', padding: '14px 18px' }}>
             <div style={{ flex: 1, minWidth: '230px' }}>
               <div style={{ fontSize: '13px', color: '#10B981', fontFamily: MONO, letterSpacing: '0.5px' }}>{l.license_key}</div>
-              <div style={{ fontSize: '11px', color: '#71717a', marginTop: '2px' }}>
+              <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
                 {ownerName(l.user_id)}{l.user_id === user?.id ? ' (you)' : ''} · {l.product}
               </div>
             </div>
-            <div style={{ fontSize: '11px', color: '#71717a', fontFamily: MONO }}>EXP {fmtDate(l.expires_at)}</div>
+            <div style={{ fontSize: '11px', color: 'var(--text-secondary)', fontFamily: MONO }}>EXP {fmtDate(l.expires_at)}</div>
             <StatusBadge status={l.status} />
             <div style={{ display: 'flex', gap: '6px' }}>
               {l.status === 'active'

@@ -1,8 +1,8 @@
-export const BORDER = '#27272a'
-export const PANEL = '#18181b'
-export const PANEL_DARK = '#09090b'
-export const ACCENT = '#10B981'
-export const MUTED = '#71717a'
+export const BORDER = 'var(--border)'
+export const PANEL = 'var(--surface)'
+export const PANEL_DARK = 'var(--bg)'
+export const ACCENT = 'var(--primary)'
+export const MUTED = 'var(--muted)'
 export const MONO = "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace"
 
 export function PageHead({ kicker, title, desc, actions }) {
@@ -55,7 +55,7 @@ export function Btn({ children, tone = 'ghost', variant, size = 'md', style, ...
       onMouseEnter={e => {
         if (variant === 'solid' || tone === 'primary') { e.currentTarget.style.background = '#0D9673' }
         else if (tone === 'danger') { e.currentTarget.style.background = '#DC2626'; e.currentTarget.style.color = '#fff' }
-        else { e.currentTarget.style.background = '#27272a' }
+        else { e.currentTarget.style.background = 'var(--surface-hover)' }
       }}
       onMouseLeave={e => {
         if (variant === 'solid' || tone === 'primary') { e.currentTarget.style.background = ACCENT }
@@ -112,7 +112,7 @@ export function Badge({ tone = 'muted', children }) {
     amber: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B', border: 'rgba(245,158,11,0.3)' },
     red: { bg: 'rgba(220,38,38,0.1)', color: '#DC2626', border: 'rgba(220,38,38,0.3)' },
     blue: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6', border: 'rgba(59,130,246,0.3)' },
-    muted: { bg: '#18181b', color: '#a1a1aa', border: '#27272a' },
+    muted: { bg: 'var(--surface-hover)', color: 'var(--text-secondary)', border: 'var(--border)' },
     accent: { bg: ACCENT, color: '#000', border: ACCENT },
   }
   const c = tones[tone] || tones.muted
@@ -145,7 +145,7 @@ export function StatusBadge({ status }) {
 export function Empty({ text, action }) {
   return (
     <div style={{
-      padding: '48px 24px', textAlign: 'center', border: '1px dashed #27272a',
+      padding: '48px 24px', textAlign: 'center', border: '1px dashed ' + BORDER,
       background: PANEL,
     }}>
       <div style={{ fontSize: '13px', color: MUTED, fontFamily: MONO }}>{text}</div>

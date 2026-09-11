@@ -30,7 +30,7 @@ export default function Support() {
     })()
   }, [user?.id])
 
-  if (loading) return <div style={{ padding: '120px 24px', textAlign: 'center', color: '#71717a', fontFamily: 'monospace' }}>LOADING…</div>
+  if (loading) return <div style={{ padding: '120px 24px', textAlign: 'center', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>LOADING…</div>
   if (!user) return <Navigate to={p('/login')} replace />
 
   const filtered = tickets.filter(t =>
@@ -59,24 +59,24 @@ export default function Support() {
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        {loadingData && <Card><div style={{ color: '#71717a', fontSize: '13px', fontFamily: 'monospace' }}>LOADING…</div></Card>}
+        {loadingData && <Card><div style={{ color: 'var(--text-secondary)', fontSize: '13px', fontFamily: 'monospace' }}>LOADING…</div></Card>}
         {!loadingData && filtered.length === 0 && (
           <Empty text="No tickets match the current filters." action={<Link to={p('/support/new')}><Btn tone="primary">Create Ticket</Btn></Link>} />
         )}
         {filtered.map(t => (
           <Link key={t.id} to={p(`/support/ticket-${t.slug}`)} style={{ textDecoration: 'none' }}>
             <Card style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap', transition: 'border-color 0.15s, background 0.15s' }}
-              onMouseEnter={e => { e.currentTarget.style.background = '#1c1c1f'; e.currentTarget.style.borderColor = '#10B981' }}
-              onMouseLeave={e => { e.currentTarget.style.background = '#18181b'; e.currentTarget.style.borderColor = '#27272a' }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface-hover)'; e.currentTarget.style.borderColor = '#10B981' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'var(--surface)'; e.currentTarget.style.borderColor = 'var(--border)' }}
             >
               <div style={{ flex: 1, minWidth: '180px' }}>
                 <div style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text)' }}>{t.title}</div>
-                <div style={{ fontSize: '11px', color: '#71717a', fontFamily: 'monospace', marginTop: '4px' }}>
+                <div style={{ fontSize: '11px', color: 'var(--text-secondary)', fontFamily: 'monospace', marginTop: '4px' }}>
                   TICKET-{t.slug}
                   {t.assignee_id && t.assignee_id !== user.id ? ' · ASSIGNED' : ''}
                 </div>
               </div>
-              <div style={{ fontSize: '11px', color: '#71717a', fontFamily: 'monospace' }}>{fmtDate(t.created_at)}</div>
+              <div style={{ fontSize: '11px', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>{fmtDate(t.created_at)}</div>
               <StatusBadge status={t.category} />
               <StatusBadge status={t.status} />
             </Card>

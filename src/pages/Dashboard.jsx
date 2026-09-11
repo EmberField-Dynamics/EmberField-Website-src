@@ -33,7 +33,7 @@ export default function Dashboard() {
     })()
   }, [user?.id])
 
-  if (loading) return <div style={{ padding: '120px 24px', textAlign: 'center', color: '#71717a', fontFamily: 'monospace' }}>LOADING…</div>
+  if (loading) return <div style={{ padding: '120px 24px', textAlign: 'center', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>LOADING…</div>
   if (!user) return <Navigate to={p('/login')} replace />
 
   const openCount = tickets.filter(t => t.status === 'open').length
@@ -41,12 +41,12 @@ export default function Dashboard() {
 
   const stat = (label, value, suffix) => (
     <Card style={{ padding: '20px' }}>
-      <div style={{ fontSize: '11px', color: '#71717a', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: MONO }}>
+      <div style={{ fontSize: '11px', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '2px', fontFamily: MONO }}>
         {label}
       </div>
       <div style={{ fontSize: '30px', fontWeight: 800, color: 'var(--text)', marginTop: '10px', fontFamily: MONO }}>
         {value}
-        {suffix && <span style={{ fontSize: '16px', color: '#71717a', fontWeight: 500 }}>{suffix}</span>}
+        {suffix && <span style={{ fontSize: '16px', color: 'var(--text-secondary)', fontWeight: 500 }}>{suffix}</span>}
       </div>
     </Card>
   )
@@ -75,7 +75,7 @@ export default function Dashboard() {
             <Link to={p('/support')} style={{ fontSize: '12px', color: '#10B981', fontWeight: 600 }}>VIEW ALL →</Link>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {loadingData && <Card><div style={{ color: '#71717a', fontSize: '13px', fontFamily: MONO }}>LOADING…</div></Card>}
+            {loadingData && <Card><div style={{ color: 'var(--text-secondary)', fontSize: '13px', fontFamily: MONO }}>LOADING…</div></Card>}
             {!loadingData && tickets.length === 0 && (
               <Empty text="No tickets yet. Open a support ticket when you need help." action={<Link to={p('/support/new')}><Btn tone="primary" size="md">Create Ticket</Btn></Link>} />
             )}
@@ -84,7 +84,7 @@ export default function Dashboard() {
                 <Card style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
                   <div style={{ flex: 1, minWidth: '180px' }}>
                     <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{t.title}</div>
-                    <div style={{ fontSize: '11px', color: '#71717a', fontFamily: MONO, marginTop: '3px' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-secondary)', fontFamily: MONO, marginTop: '3px' }}>
                       TICKET-{t.slug} &nbsp;·&nbsp; {fmtDate(t.created_at)}
                     </div>
                   </div>
@@ -99,7 +99,7 @@ export default function Dashboard() {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
             <h2 style={{ fontSize: '14px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'var(--text)' }}>Licenses</h2>
-            <span style={{ fontSize: '12px', color: '#71717a', fontWeight: 600 }}>{licenses.length} TOTAL</span>
+            <span style={{ fontSize: '12px', color: 'var(--text-secondary)', fontWeight: 600 }}>{licenses.length} TOTAL</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {!loadingData && licenses.length === 0 && (
@@ -111,7 +111,7 @@ export default function Dashboard() {
                   <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{l.product}</div>
                   <div style={{ fontSize: '11px', color: '#10B981', fontFamily: MONO, marginTop: '3px' }}>{l.license_key}</div>
                 </div>
-                <div style={{ fontSize: '11px', color: '#71717a', fontFamily: MONO }}>EXP {fmtDate(l.expires_at)}</div>
+                <div style={{ fontSize: '11px', color: 'var(--text-secondary)', fontFamily: MONO }}>EXP {fmtDate(l.expires_at)}</div>
                 <StatusBadge status={l.status} />
               </Card>
             ))}

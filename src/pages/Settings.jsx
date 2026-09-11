@@ -40,7 +40,7 @@ export default function Settings() {
     supabase.auth.getUserIdentities().then(({ data }) => setIdentities(data?.identities || []))
   }, [section, user?.id])
 
-  if (loading) return <div style={{ padding: '120px 24px', textAlign: 'center', color: '#71717a', fontFamily: 'monospace' }}>LOADING…</div>
+  if (loading) return <div style={{ padding: '120px 24px', textAlign: 'center', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>LOADING…</div>
   if (!user) return <Navigate to={p('/login')} replace />
   if (!SECTIONS.some(s => s.id === section)) return <Navigate to={p('/settings/my-profile')} replace />
 
@@ -113,7 +113,7 @@ export default function Settings() {
             <Link key={s.id} to={p(`/settings/${s.id}`)} style={{
               padding: '10px 12px', fontSize: '12px', fontWeight: 600, letterSpacing: '1px',
               textTransform: 'uppercase', fontFamily: "monospace",
-              color: section === s.id ? '#10B981' : '#71717a',
+              color: section === s.id ? '#10B981' : 'var(--text-secondary)',
               background: section === s.id ? 'rgba(16,185,129,0.08)' : 'transparent',
               border: `1px solid ${section === s.id ? 'rgba(16,185,129,0.3)' : 'transparent'}`,
             }}>
@@ -130,13 +130,13 @@ export default function Settings() {
             <form onSubmit={handleSaveProfile}>
               <Card>
                 <div style={{ marginBottom: '24px' }}>
-                  <div style={{ fontSize: '11px', color: '#71717a', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '12px', fontFamily: 'monospace' }}>Avatar</div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '12px', fontFamily: 'monospace' }}>Avatar</div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                     {avatar ? (
-                      <img src={avatar} alt="" style={{ width: '72px', height: '72px', objectFit: 'cover', border: '1px solid #27272a' }} />
+                      <img src={avatar} alt="" style={{ width: '72px', height: '72px', objectFit: 'cover', border: '1px solid var(--border)' }} />
                     ) : (
                       <div style={{
-                        width: '72px', height: '72px', border: '1px dashed #27272a',
+                        width: '72px', height: '72px', border: '1px dashed var(--border)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         fontSize: '24px', fontWeight: 800, color: '#10B981', fontFamily: 'monospace',
                       }}>{(name || '?').charAt(0).toUpperCase()}</div>
@@ -169,7 +169,7 @@ export default function Settings() {
           {section === 'account' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <Card>
-                <div style={{ fontSize: '11px', color: '#71717a', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '14px', fontFamily: 'monospace' }}>Change Password</div>
+                <div style={{ fontSize: '11px', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '14px', fontFamily: 'monospace' }}>Change Password</div>
                 <form onSubmit={handleChangePass}>
                   <Field label="New Password" hint="At least 6 characters. You'll need to sign in again after changing it.">
                     <Input type="password" value={pass} onChange={e => setPass(e.target.value)} placeholder="••••••••" autoComplete="new-password" />
@@ -180,24 +180,24 @@ export default function Settings() {
               </Card>
 
               <Card>
-                <div style={{ fontSize: '11px', color: '#71717a', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '14px', fontFamily: 'monospace' }}>Connected Accounts</div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid #27272a' }}>
+                <div style={{ fontSize: '11px', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '14px', fontFamily: 'monospace' }}>Connected Accounts</div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid var(--border)' }}>
                   <div>
                     <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>Email &amp; Password</div>
-                    <div style={{ fontSize: '12px', color: '#71717a', marginTop: '2px' }}>{user.email}</div>
+                    <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>{user.email}</div>
                   </div>
                   <Badge tone="green">Set up</Badge>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0' }}>
                   <div>
                     <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>Google</div>
-                    <div style={{ fontSize: '12px', color: '#71717a', marginTop: '2px' }}>{googleLinked ? 'Linked with ' + (user.email || 'your Google account') : 'Not linked'}</div>
+                    <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>{googleLinked ? 'Linked with ' + (user.email || 'your Google account') : 'Not linked'}</div>
                   </div>
                   {googleLinked
                     ? <Btn size="sm" tone="danger" onClick={doUnlink} disabled={unlinking}>{unlinking ? '…' : 'Unlink'}</Btn>
                     : <Btn size="sm" onClick={doLink} disabled={linking}>{linking ? '…' : 'Link Google'}</Btn>}
                 </div>
-                <p style={{ fontSize: '12px', color: '#71717a', marginTop: '10px', lineHeight: 1.6 }}>
+                <p style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '10px', lineHeight: 1.6 }}>
                   You can link Google for one-click sign-in. To unlink it you must keep at least one other sign-in method (Email &amp; Password), so you can't get locked out.
                 </p>
               </Card>

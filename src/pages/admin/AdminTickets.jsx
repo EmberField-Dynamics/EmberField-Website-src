@@ -55,7 +55,7 @@ export default function AdminTickets() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <div style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text)' }}>Tickets</div>
-          <div style={{ fontSize: '12px', color: '#71717a', marginTop: '2px' }}>All support tickets across the platform.</div>
+          <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>All support tickets across the platform.</div>
         </div>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <Select value={filter} onChange={e => setFilter(e.target.value)} style={{ width: 'auto', minWidth: '130px' }}>
@@ -67,7 +67,7 @@ export default function AdminTickets() {
         </div>
       </div>
 
-      {loading && <div style={{ color: '#71717a', fontFamily: 'monospace', fontSize: '13px', padding: '20px 0' }}>LOADING TICKETS…</div>}
+      {loading && <div style={{ color: 'var(--text-secondary)', fontFamily: 'monospace', fontSize: '13px', padding: '20px 0' }}>LOADING TICKETS…</div>}
       {!loading && filtered.length === 0 && <Empty text="No tickets match." />}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -79,7 +79,7 @@ export default function AdminTickets() {
                 <Link to={p(`/support/ticket-${t.slug}`)} style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text)', textDecoration: 'none' }}>
                   {t.title}
                 </Link>
-                <div style={{ fontSize: '11px', color: '#71717a', fontFamily: 'monospace', marginTop: '3px' }}>
+                <div style={{ fontSize: '11px', color: 'var(--text-secondary)', fontFamily: 'monospace', marginTop: '3px' }}>
                   TICKET-{t.slug} · {author?.full_name || author?.email || 'Unknown'}
                 </div>
               </div>

@@ -30,7 +30,7 @@ export default function ManageTeam() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <div style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text)' }}>Team Members</div>
-          <div style={{ fontSize: '12px', color: '#71717a', marginTop: '2px' }}>{members.length} members shown on the Developers page.</div>
+          <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>{members.length} members shown on the Developers page.</div>
         </div>
         <Btn tone="primary" onClick={() => { reset(); setShowAdd(true) }}>Add Team Member</Btn>
       </div>
@@ -75,7 +75,7 @@ export default function ManageTeam() {
                   <Avatar name={m.name} url={m.avatar} size={46} />
                   <div>
                     <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text)' }}>{m.name}</div>
-                    <div style={{ fontSize: '11px', color: '#71717a', fontFamily: 'monospace' }}>{g.name}</div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>{g.name}</div>
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '14px' }}>
@@ -95,7 +95,7 @@ export default function ManageTeam() {
 
       {unassigned.length > 0 && (
         <div style={{ marginBottom: '28px' }}>
-          <div style={{ fontSize: '13px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#71717a', marginBottom: '12px', fontFamily: 'monospace' }}>
+          <div style={{ fontSize: '13px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'var(--text-secondary)', marginBottom: '12px', fontFamily: 'monospace' }}>
             No Role — {unassigned.length}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '12px' }}>
