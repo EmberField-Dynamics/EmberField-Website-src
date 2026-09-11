@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 import { useAuth } from '../context/AuthContext'
 import { useAdmin } from '../context/AdminContext'
+import { supabase, isSupabaseConfigured } from '../lib/supabase'
+import UsersTableSkeleton from '../components/UsersTableSkeleton'
 
 const inputStyle = {
   width: '100%', padding: '12px 16px', borderRadius: '10px',
@@ -109,6 +111,63 @@ export default function Admin() {
   const [roleChange, setRoleChange] = useState({})
   const [adminAction, setAdminAction] = useState({})
   const [userMsg, setUserMsg] = useState('')
+
+  const [promos, setPromos] = useState([])
+  const [promosLoading, setPromosLoading] = useState(false)
+  const [promoMsg, setPromoMsg] = useState('')
+  const [promoForm, setPromoForm] = useState({ code: '', discount_percent: '10', max_uses: '', expires_at: '', enabled: true, note: '' })
+
+  const loadPromos = async () => {
+    setPromoMsg('')
+    if (!isSupabaseConfigured()) { setPromoMsg('Supabase is not configured.'); setPromos([]); return }
+    setPromosLoading(true)
+    const { data, error } = await supabase
+      .from('promo_codes')
+      .select('*')
+      .order('created_at', { ascending: false })
+    setPromosLoading(false)
+    if (error) setPromoMsg(error.message)
+    else setPromos(data || [])
+  }
+
+  useEffect(() => {
+    if (user && user.role === 'admin' && activeTab === 'promos') loadPromos()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab])
+
+  const addPromo = async (e) => {
+    e.preventDefault()
+    if (!promoForm.code.trim()) return
+    setPromoMsg('')
+    const { error } = await supabase.from('promo_codes').insert({
+      code: promoForm.code.trim().toUpperCase(),
+      discount_percent: Math.max(0, Math.min(100, Number(promoForm.discount_percent) || 0)),
+      max_uses: promoForm.max_uses ? Number(promoForm.max_uses) : null,
+      expires_at: promoForm.expires_at ? new Date(promoForm.expires_at).toISOString() : null,
+      enabled: promoForm.enabled,
+      note: promoForm.note.trim() || null,
+    })
+    if (error) setPromoMsg(error.message)
+    else {
+      setPromoForm({ code: '', discount_percent: '10', max_uses: '', expires_at: '', enabled: true, note: '' })
+      loadPromos()
+    }
+  }
+
+  const togglePromo = async (promo) => {
+    setPromoMsg('')
+    const { error } = await supabase.from('promo_codes').update({ enabled: !promo.enabled }).eq('id', promo.id)
+    if (error) setPromoMsg(error.message)
+    else loadPromos()
+  }
+
+  const deletePromo = async (promo) => {
+    if (!window.confirm(`Delete promo code ${promo.code}?`)) return
+    setPromoMsg('')
+    const { error } = await supabase.from('promo_codes').delete().eq('id', promo.id)
+    if (error) setPromoMsg(error.message)
+    else loadPromos()
+  }
 
   const loadUsers = async () => {
     setUsersLoading(true)
@@ -241,6 +300,7 @@ export default function Admin() {
     { id: 'roles', label: 'Roles', icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> },
     { id: 'projects', label: 'Projects', icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> },
     { id: 'users', label: 'Users', icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> },
+    { id: 'promos', label: 'Promo Codes', icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 3h8l10 10-8 8L3 11V3z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg> },
     { id: 'stats', label: 'Overview', icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> },
   ]
 
@@ -357,7 +417,7 @@ export default function Admin() {
             </button>
           </div>
 
-          {usersLoading && <p style={{ fontSize: '14px', color: 'var(--text-secondary)', padding: '20px' }}>Loading users...</p>}
+          {usersLoading && <UsersTableSkeleton />}
 
           {userMsg && (
             <div style={{ padding: '12px 16px', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--badge-bg)', color: 'var(--text)', fontSize: '13px', fontWeight: 600, marginBottom: '16px' }}>{userMsg}</div>
@@ -434,6 +494,96 @@ export default function Admin() {
                   <option value="admin">Admin</option>
                   <option value="banned">Banned</option>
                 </select>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'promos' && (
+        <div style={{ animation: 'fadeInUp 0.6s ease-out' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
+            <div>
+              <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '4px' }}>Promo Codes</h3>
+              <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>Create discount codes that customers can use at checkout.</p>
+            </div>
+            <button onClick={loadPromos} style={{ padding: '10px 20px', borderRadius: '10px', border: '1px solid var(--border)', background: 'transparent', color: 'var(--text)', fontSize: '13px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><polyline points="21 3 21 9 15 9"/></svg>
+              Refresh
+            </button>
+          </div>
+
+          {promoMsg && (
+            <div style={{ padding: '12px 16px', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--badge-bg)', color: 'var(--text)', fontSize: '13px', fontWeight: 600, marginBottom: '16px' }}>{promoMsg}</div>
+          )}
+
+          <form onSubmit={addPromo} style={{ padding: '24px', borderRadius: '16px', border: '1px solid var(--border)', background: 'var(--card-bg)', marginBottom: '24px' }}>
+            <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '16px' }}>Add Promo Code</h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px', marginBottom: '16px' }}>
+              <div>
+                <label style={labelStyle}>Code</label>
+                <input required placeholder="e.g. SUMMER25" value={promoForm.code} onChange={e => setPromoForm({...promoForm, code: e.target.value})} style={inputStyle} onFocus={e => e.target.style.borderColor = 'var(--primary)'} onBlur={e => e.target.style.borderColor = 'var(--border)'}/>
+              </div>
+              <div>
+                <label style={labelStyle}>Discount %</label>
+                <input type="number" min="0" max="100" value={promoForm.discount_percent} onChange={e => setPromoForm({...promoForm, discount_percent: e.target.value})} style={inputStyle} onFocus={e => e.target.style.borderColor = 'var(--primary)'} onBlur={e => e.target.style.borderColor = 'var(--border)'}/>
+              </div>
+              <div>
+                <label style={labelStyle}>Max Uses (optional)</label>
+                <input type="number" min="1" value={promoForm.max_uses} onChange={e => setPromoForm({...promoForm, max_uses: e.target.value})} style={inputStyle} onFocus={e => e.target.style.borderColor = 'var(--primary)'} onBlur={e => e.target.style.borderColor = 'var(--border)'}/>
+              </div>
+              <div>
+                <label style={labelStyle}>Expires (optional)</label>
+                <input type="date" value={promoForm.expires_at} onChange={e => setPromoForm({...promoForm, expires_at: e.target.value})} style={inputStyle} onFocus={e => e.target.style.borderColor = 'var(--primary)'} onBlur={e => e.target.style.borderColor = 'var(--border)'}/>
+              </div>
+              <div>
+                <label style={labelStyle}>Note</label>
+                <input placeholder="Optional note" value={promoForm.note} onChange={e => setPromoForm({...promoForm, note: e.target.value})} style={inputStyle} onFocus={e => e.target.style.borderColor = 'var(--primary)'} onBlur={e => e.target.style.borderColor = 'var(--border)'}/>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>
+                <input type="checkbox" checked={promoForm.enabled} onChange={e => setPromoForm({...promoForm, enabled: e.target.checked})} style={{ accentColor: 'var(--primary)' }}/>
+                Enabled
+              </label>
+              <button type="submit" style={{ padding: '12px 24px', borderRadius: '10px', border: 'none', background: 'var(--primary)', color: '#000', fontSize: '14px', fontWeight: 700, cursor: 'pointer', marginLeft: 'auto', transition: 'all 0.25s' }} onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 0 20px rgba(16,185,129,0.3)' }} onMouseLeave={e => e.currentTarget.style.boxShadow = 'none' }>
+                Add Code
+              </button>
+            </div>
+          </form>
+
+          {promosLoading && <div style={{ padding: '24px', textAlign: 'center', fontSize: '14px', color: 'var(--text-secondary)' }}>Loading...</div>}
+
+          {!promosLoading && promos.length === 0 && (
+            <div style={{ padding: '40px', textAlign: 'center', borderRadius: '14px', border: '1px dashed var(--border)', background: 'var(--card-bg)' }}>
+              <div style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>No promo codes yet. Create one above.</div>
+            </div>
+          )}
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {promos.map((promo, i) => (
+              <div key={promo.id} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px 20px', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--card-bg)', animation: `fadeInUp 0.5s ease-out ${0.04 * i}s both` }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: '15px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {promo.code}
+                    {promo.enabled ? (
+                      <span style={{ fontSize: '10px', fontWeight: 700, padding: '2px 8px', borderRadius: '6px', background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)', color: '#10B981' }}>ACTIVE</span>
+                    ) : (
+                      <span style={{ fontSize: '10px', fontWeight: 700, padding: '2px 8px', borderRadius: '6px', background: 'rgba(220,38,38,0.1)', border: '1px solid rgba(220,38,38,0.25)', color: '#EF4444' }}>DISABLED</span>
+                    )}
+                  </div>
+                  <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                    {promo.discount_percent}% off{promo.max_uses ? ` · ${promo.times_used}/${promo.max_uses} used` : ''}{promo.expires_at ? ` · expires ${new Date(promo.expires_at).toLocaleDateString()}` : ''}{promo.note ? ` · ${promo.note}` : ''}
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button onClick={() => togglePromo(promo)} style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border)', background: 'transparent', color: 'var(--text-secondary)', fontSize: '12px', fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s' }} onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--primary)'} onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}>
+                    {promo.enabled ? 'Disable' : 'Enable'}
+                  </button>
+                  <button onClick={() => deletePromo(promo)} style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(220,38,38,0.3)', background: 'transparent', color: '#DC2626', fontSize: '12px', fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s' }} onMouseEnter={e => { e.currentTarget.style.background = '#DC2626'; e.currentTarget.style.color = '#fff' }} onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#DC2626' }}>
+                    Delete
+                  </button>
+                </div>
               </div>
             ))}
           </div>

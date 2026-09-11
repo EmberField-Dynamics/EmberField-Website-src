@@ -109,3 +109,107 @@ create policy "authenticated delete avatars"
 
 -- Emberfield Dynamics team content stays in its existing local context;
 -- real registered users now live in auth.users + profiles.
+--
+-- ============================================================================
+-- Checkout: promo codes + purchases
+-- Run this block once in Supabase Dashboard -> SQL Editor (re-runnable).
+-- ============================================================================
+
+create table if not exists public.promo_codes (
+  id uuid primary key default gen_random_uuid(),
+  code text not null unique,
+  discount_percent integer not null default 10 check (discount_percent between 0 and 100),
+  enabled boolean not null default true,
+  max_uses integer,
+  times_used integer not null default 0,
+  expires_at timestamptz,
+  note text,
+  created_at timestamptz default now()
+);
+
+create table if not exists public.purchases (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references public.profiles (id) on delete set null,
+  plan text not null check (plan in ('anticheat', 'servermode', 'discordbot')),
+  full_name text not null default '',
+  email text not null,
+  note text,
+  promo_code text,
+  discount_percent integer not null default 0,
+  base_price numeric not null default 0,
+  total numeric not null default 0,
+  status text not null default 'pending' check (status in ('pending', 'contacted', 'completed', 'cancelled')),
+  created_at timestamptz default now()
+);
+
+alter table public.promo_codes enable row level security;
+alter table public.purchases enable row level security;
+
+-- Atomically claim one promo-code use. Returns false when invalid/exhausted.
+create or replace function public.increment_promo_use(code_text text)
+returns boolean
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  row public.promo_codes%rowtype;
+begin
+  select * into row from public.promo_codes where code = upper(code_text) for update;
+  if row.id is null then
+    return false;
+  end if;
+  if row.enabled = false then
+    return false;
+  end if;
+  if row.expires_at is not null and row.expires_at < now() then
+    return false;
+  end if;
+  if row.max_uses is not null and row.times_used >= row.max_uses then
+    return false;
+  end if;
+  update public.promo_codes set times_used = times_used + 1 where id = row.id;
+  return true;
+end;
+$$;
+
+-- Promo codes are public only when enabled (checkout validation).
+create policy "public read enabled promo codes"
+  on public.promo_codes for select
+  using (enabled = true);
+
+create policy "admins read all promo codes"
+  on public.promo_codes for select
+  using (public.is_admin());
+
+create policy "admins insert promo codes"
+  on public.promo_codes for insert
+  with check (public.is_admin());
+
+create policy "admins update promo codes"
+  on public.promo_codes for update
+  using (public.is_admin());
+
+create policy "admins delete promo codes"
+  on public.promo_codes for delete
+  using (public.is_admin());
+
+-- Anyone can place an order (guest checkout); reading is restricted.
+create policy "public insert purchases"
+  on public.purchases for insert
+  with check (true);
+
+create policy "users read own purchases"
+  on public.purchases for select
+  using (auth.uid() = user_id);
+
+create policy "admins read all purchases"
+  on public.purchases for select
+  using (public.is_admin());
+
+create policy "admins update purchases"
+  on public.purchases for update
+  using (public.is_admin());
+
+grant select, insert on public.promo_codes to anon, authenticated, service_role;
+grant select, insert, update on public.purchases to anon, authenticated, service_role;
+grant execute on function public.increment_promo_use(text) to anon, authenticated, service_role;

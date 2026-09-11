@@ -8,27 +8,30 @@ export default function Pricing() {
 
   const plans = [
     {
-      name: t.pricing.starter,
-      price: t.pricing.starterPrice,
-      period: t.pricing.starterPeriod,
-      features: t.pricing.starterFeatures,
-      btn: t.pricing.starterBtn,
+      id: 'anticheat',
+      name: t.pricing.anticheat,
+      price: t.pricing.anticheatPrice,
+      period: t.pricing.anticheatPeriod,
+      features: t.pricing.anticheatFeatures,
+      btn: t.pricing.anticheatBtn,
       popular: false,
     },
     {
-      name: t.pricing.pro,
-      price: t.pricing.proPrice,
-      period: t.pricing.proPeriod,
-      features: t.pricing.proFeatures,
-      btn: t.pricing.proBtn,
+      id: 'servermode',
+      name: t.pricing.servermode,
+      price: t.pricing.servermodePrice,
+      period: t.pricing.servermodePeriod,
+      features: t.pricing.servermodeFeatures,
+      btn: t.pricing.servermodeBtn,
       popular: true,
     },
     {
-      name: t.pricing.enterprise,
-      price: t.pricing.enterprisePrice,
-      period: t.pricing.enterprisePeriod,
-      features: t.pricing.enterpriseFeatures,
-      btn: t.pricing.enterpriseBtn,
+      id: 'discordbot',
+      name: t.pricing.discordbot,
+      price: t.pricing.discordbotPrice,
+      period: t.pricing.discordbotPeriod,
+      features: t.pricing.discordbotFeatures,
+      btn: t.pricing.discordbotBtn,
       popular: false,
     },
   ]
@@ -87,7 +90,7 @@ export default function Pricing() {
                 </li>
               ))}
             </ul>
-            <Link to={p('/contact')} style={{
+            <Link to={p(`/buy/${plan.id}`)} style={{
               display: 'block', width: '100%', padding: '14px', borderRadius: '12px',
               border: plan.popular ? 'none' : '1px solid var(--border)',
               background: plan.popular ? 'var(--primary)' : 'var(--input-bg)',

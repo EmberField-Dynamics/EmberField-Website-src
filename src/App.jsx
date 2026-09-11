@@ -11,6 +11,7 @@ import Services from './pages/Services'
 import Impact from './pages/Impact'
 import Developers from './pages/Developers'
 import Pricing from './pages/Pricing'
+import Buy from './pages/Buy'
 import Contact from './pages/Contact'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -19,11 +20,12 @@ import MemberDashboard from './pages/MemberDashboard'
 import SetupAccount from './pages/SetupAccount'
 import AuthCallback from './pages/AuthCallback'
 import NotFound from './pages/NotFound'
+import PageSkeleton from './components/PageSkeleton'
 
 function RequireAdmin({ children }) {
   const { user, loading } = useAuth()
   const { lang } = useParams()
-  if (loading) return null
+  if (loading) return <PageSkeleton />
   if (!user || user.role !== 'admin') return <Navigate to={`/${lang}/404`} replace />
   return children
 }
@@ -31,7 +33,7 @@ function RequireAdmin({ children }) {
 function RequireAuth({ children }) {
   const { user, loading } = useAuth()
   const { lang } = useParams()
-  if (loading) return null
+  if (loading) return <PageSkeleton />
   if (!user) return <Navigate to={`/${lang}/login`} replace />
   return children
 }
@@ -87,6 +89,8 @@ function LangLayout() {
             <Route path="impact" element={<Impact />} />
             <Route path="developers" element={<Developers />} />
             <Route path="pricing" element={<Pricing />} />
+            <Route path="buy" element={<Buy />} />
+            <Route path="buy/:plan" element={<Buy />} />
             <Route path="contact" element={<Contact />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />

@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 import { useAuth } from '../context/AuthContext'
 import { supabase } from '../lib/supabase'
+import PageSkeleton from '../components/PageSkeleton'
 
 export default function MemberDashboard() {
   const { lang, t } = useLanguage()
@@ -41,7 +42,7 @@ export default function MemberDashboard() {
     else setError(result.error)
   }
 
-  if (loading) return <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>Loading...</div>
+  if (loading) return <PageSkeleton count={2} />
   if (!user) return <Navigate to={p('/login')} replace />
 
   const inputStyle = {
