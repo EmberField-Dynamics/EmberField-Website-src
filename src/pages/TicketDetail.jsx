@@ -76,7 +76,8 @@ export default function TicketDetail() {
 
   if (loading) return <div style={{ padding: '120px 24px', textAlign: 'center', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>LOADING…</div>
   if (!user) return <Navigate to={p('/login')} replace />
-  if (notFound) return (
+  if (loadingData && !ticket) return <div style={{ padding: '120px 24px', textAlign: 'center', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>LOADING TICKET…</div>
+  if (!ticket) return (
     <div style={{ padding: '120px 24px', textAlign: 'center' }}>
       <div style={{ fontSize: '14px', color: 'var(--text-secondary)', fontFamily: MONO, marginBottom: '20px' }}>TICKET NOT FOUND</div>
       <Link to={p('/support')}><Btn>Back to Tickets</Btn></Link>
