@@ -106,7 +106,7 @@ export default function Register() {
             <div style={{ marginBottom: '24px', fontSize: '13px', color: 'var(--text-secondary)' }}>
               <label style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', cursor: 'pointer' }}>
                 <input type="checkbox" required style={{ marginTop: '3px', accentColor: 'var(--primary)' }}/>
-                <span>{t.register.agree} <a href="#" style={{ color: 'var(--primary)' }}>{t.register.terms}</a> {t.register.and} <a href="#" style={{ color: 'var(--primary)' }}>{t.register.privacy}</a></span>
+                <span>{t.register.agree} <Link to={p('/terms')} style={{ color: 'var(--primary)' }}>{t.register.terms}</Link> {t.register.and} <Link to={p('/privacy')} style={{ color: 'var(--primary)' }}>{t.register.privacy}</Link></span>
               </label>
             </div>
 

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 import { useAuth } from '../context/AuthContext'
+import { supabase, isSupabaseConfigured } from '../lib/supabase'
 
 export default function Login() {
   const { lang, t } = useLanguage()
@@ -9,8 +10,30 @@ export default function Login() {
   const navigate = useNavigate()
   const [form, setForm] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
+  const [resetMsg, setResetMsg] = useState('')
+  const [resetting, setResetting] = useState(false)
   const [loading, setLoading] = useState(false)
   const p = (path) => `/${lang}${path}`
+
+  const handleForgot = async (e) => {
+    e.preventDefault()
+    setError('')
+    if (!form.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      setError(t.login.enterEmail)
+      return
+    }
+    if (!isSupabaseConfigured()) {
+      setError(t.login.noSupabase)
+      return
+    }
+    setResetting(true)
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(form.email, {
+      redirectTo: `${window.location.origin}/${lang}/auth/callback`,
+    })
+    setResetting(false)
+    if (resetError) setError(resetError.message)
+    else setResetMsg(`${t.login.resetSent} ${form.email}`)
+  }
 
   const handleGoogle = async () => {
     setError('')
@@ -68,6 +91,14 @@ export default function Login() {
             }}>{error}</div>
           )}
 
+          {resetMsg && !error && (
+            <div style={{
+              padding: '12px 16px', borderRadius: 0,
+              background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)',
+              color: 'var(--primary)', fontSize: '13px', marginBottom: '20px',
+            }}>{resetMsg}</div>
+          )}
+
           <form onSubmit={handleSubmit}>
             <div style={{ marginBottom: '20px' }}>
               <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '8px' }}>{t.login.email}</label>
@@ -81,7 +112,9 @@ export default function Login() {
             <div style={{ marginBottom: '24px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                 <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)' }}>{t.login.password}</label>
-                <a href="#" style={{ fontSize: '13px', color: 'var(--primary)', fontWeight: 500 }}>{t.login.forgot}</a>
+                <a href="#" onClick={handleForgot} style={{ fontSize: '13px', color: 'var(--primary)', fontWeight: 500, cursor: resetting ? 'wait' : 'pointer' }}>
+                  {resetting ? t.login.sending : t.login.forgot}
+                </a>
               </div>
               <input
                 type="password" required

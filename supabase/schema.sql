@@ -282,3 +282,30 @@ create policy "admins update purchases"
 grant select, insert on public.promo_codes to anon, authenticated, service_role;
 grant select, insert, update on public.purchases to anon, authenticated, service_role;
 grant execute on function public.increment_promo_use(text) to anon, authenticated, service_role;
+
+-- ============================================================================
+-- Newsletter subscriptions (collects footer signups; re-runnable)
+-- ============================================================================
+
+create table if not exists public.newsletter_subscriptions (
+  id uuid primary key default gen_random_uuid(),
+  email text not null unique,
+  subscribed_at timestamptz default now(),
+  source text not null default 'footer'
+);
+
+alter table public.newsletter_subscriptions enable row level security;
+
+-- Anyone can subscribe; only admins can read the list.
+drop policy if exists "public insert newsletter subscriptions" on public.newsletter_subscriptions;
+create policy "public insert newsletter subscriptions"
+  on public.newsletter_subscriptions for insert
+  with check (true);
+
+drop policy if exists "admins read newsletter subscriptions" on public.newsletter_subscriptions;
+create policy "admins read newsletter subscriptions"
+  on public.newsletter_subscriptions for select
+  using (public.is_admin());
+
+grant insert on public.newsletter_subscriptions to anon, authenticated, service_role;
+grant select on public.newsletter_subscriptions to authenticated, service_role;

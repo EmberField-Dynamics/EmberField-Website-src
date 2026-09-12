@@ -7,6 +7,7 @@ import { AdminProvider } from './context/AdminContext'
 import { CartProvider } from './context/CartContext'
 import Navbar from './components/Navbar'
 import CartDrawer from './components/CartDrawer'
+import CookieBanner from './components/CookieBanner'
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import Services from './pages/Services'
@@ -31,6 +32,7 @@ import Support from './pages/Support'
 import NewTicket from './pages/NewTicket'
 import TicketDetail from './pages/TicketDetail'
 import Settings from './pages/Settings'
+import Legal from './pages/Legal'
 import AdminLayout from './pages/admin/AdminLayout'
 import AdminOverview from './pages/admin/AdminOverview'
 import ManageProjects from './pages/admin/ManageProjects'
@@ -114,6 +116,7 @@ function LangLayout() {
         <ScrollToTop />
         <Navbar />
         <CartDrawer />
+        <CookieBanner />
         <div key={pathname} className="page-fade" style={{ minHeight: '60vh' }}>
           {!validLang ? (
             <NotFound />
@@ -139,6 +142,9 @@ function LangLayout() {
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="auth/callback" element={<AuthCallback />} />
+            <Route path="privacy" element={<Legal type="privacy" />} />
+            <Route path="terms" element={<Legal type="terms" />} />
+            <Route path="cookies" element={<Legal type="cookies" />} />
             <Route path="setup" element={<RequireAuth><SetupAccount /></RequireAuth>} />
             <Route path="dashboard" element={<RequireAuth><Dashboard /></RequireAuth>} />
             <Route path="support" element={<RequireAuth><Support /></RequireAuth>} />
