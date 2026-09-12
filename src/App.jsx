@@ -10,7 +10,6 @@ import Home from './pages/Home'
 import Services from './pages/Services'
 import Impact from './pages/Impact'
 import Developers from './pages/Developers'
-import Pricing from './pages/Pricing'
 import Buy from './pages/Buy'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -111,7 +110,7 @@ function LangLayout() {
             <Route path="services" element={<Services />} />
             <Route path="impact" element={<Impact />} />
             <Route path="developers" element={<Developers />} />
-            <Route path="pricing" element={<Pricing />} />
+            <Route path="pricing" element={<RedirectTo to="/services" />} />
             <Route path="buy" element={<Buy />} />
             <Route path="buy/:plan" element={<Buy />} />
             <Route path="contact" element={<RequireAuth><NewTicket /></RequireAuth>} />

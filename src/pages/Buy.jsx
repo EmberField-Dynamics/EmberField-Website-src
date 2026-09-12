@@ -20,13 +20,12 @@ import { useLanguage } from '../context/LanguageContext'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import { supabase, isSupabaseConfigured } from '../lib/supabase'
+import { PRODUCTS } from '../data/services.jsx'
 import Info from '../components/checkout/Info'
 import InfoMobile from '../components/checkout/InfoMobile'
 import DetailsForm from '../components/checkout/DetailsForm'
 import PaymentForm from '../components/checkout/PaymentForm'
 import Review from '../components/checkout/Review'
-
-const PLANS = ['anticheat', 'servermode', 'discordbot']
 
 export default function Buy() {
   const { lang, t } = useLanguage()
@@ -36,11 +35,13 @@ export default function Buy() {
   const p = (path) => `/${lang}${path}`
   const muiTheme = createAppTheme(siteTheme)
 
-  const plan = PLANS.includes(routePlan) ? routePlan : 'servermode'
-  const validRoute = PLANS.includes(routePlan)
-  const planName = t.pricing[plan]
-  const planPeriod = t.pricing[`${plan}Period`]
-  const base = Number(t.pricing[`${plan}Value`]) || 0
+  const product = PRODUCTS.find((pr) => pr.slug === routePlan)
+  const validRoute = !!product
+  const plan = product ? routePlan : 'servermode'
+  const planDef = PRODUCTS.find((pr) => pr.slug === plan)
+  const planName = planDef?.name || ''
+  const planPeriod = t.checkout.once
+  const base = Number(planDef?.price) || 0
   const currency = t.checkout.currency
   const money = (n) => (t.checkout.currencyBefore ? `${currency}${n}` : `${n}${currency}`)
   const fmt = (n) => (Number.isInteger(n) ? String(n) : n.toFixed(2))
@@ -195,8 +196,8 @@ export default function Buy() {
               {t.checkout.notFoundTitle}
             </Typography>
             <Typography sx={{ color: 'text.secondary', mb: 4 }}>{t.checkout.notFoundText}</Typography>
-            <Button component={Link} to={p('/pricing')} variant="contained" sx={{ px: 4, py: 1.25 }}>
-              {t.pricing.title}
+            <Button component={Link} to={p('/services')} variant="contained" sx={{ px: 4, py: 1.25 }}>
+              {t.services.title}
             </Button>
           </Card>
         </Box>
@@ -225,7 +226,7 @@ export default function Buy() {
                 fmt={fmt}
               />
               <Box sx={{ mt: 3, pt: 3, borderTop: '1px solid', borderColor: 'divider' }}>
-                <Button component={Link} to={p('/pricing')} variant="text" sx={{ px: 0 }}>
+                <Button component={Link} to={p('/services')} variant="text" sx={{ px: 0 }}>
                   {t.checkout.changePlan}
                 </Button>
               </Box>
@@ -341,7 +342,7 @@ export default function Buy() {
               <Divider />
 
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button component={Link} to={p('/pricing')} variant="text">
+                <Button component={Link} to={p('/services')} variant="text">
                   {t.checkout.changePlan}
                 </Button>
               </Box>

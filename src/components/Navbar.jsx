@@ -48,7 +48,6 @@ export default function Navbar() {
 
   const navLinks = [
     ['/developers', t.nav.developers],
-    ['/pricing', t.nav.pricing],
     ['/docs', t.nav.docs],
     ['/forums', t.nav.forums],
     ['/contact', t.nav.contact],
@@ -109,7 +108,12 @@ export default function Navbar() {
           </Link>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }} className="nav-links">
-            <div ref={servicesRef} style={{ position: 'relative' }}>
+            <div
+              ref={servicesRef}
+              style={{ position: 'relative' }}
+              onMouseEnter={() => setServicesOpen(true)}
+              onMouseLeave={() => setServicesOpen(false)}
+            >
               <button
                 onClick={(e) => {
                   e.stopPropagation()
@@ -145,7 +149,7 @@ export default function Navbar() {
                   {serviceOptions.map((opt, i) => (
                     <Link
                       key={i}
-                      to={p('/services')}
+                      to={opt.id ? `${p('/services')}#${opt.id}` : p('/services')}
                       onClick={() => setServicesOpen(false)}
                       style={{
                         display: 'block', padding: '10px 12px', borderRadius: 0,
@@ -342,7 +346,7 @@ export default function Navbar() {
           animation: 'fadeIn 0.2s ease',
         }}>
           {serviceOptions.map((opt, i) => (
-            <Link key={i} to={p('/services')} style={{
+            <Link key={i} to={opt.id ? `${p('/services')}#${opt.id}` : p('/services')} style={{
               padding: '12px 16px', fontSize: '16px', fontWeight: 500, borderRadius: 0,
               color: isDark ? '#FFFFFF' : '#0F172A',
               background: 'transparent',

@@ -186,7 +186,7 @@ create table if not exists public.promo_codes (
 create table if not exists public.purchases (
   id uuid primary key default gen_random_uuid(),
   user_id uuid references public.profiles (id) on delete set null,
-  plan text not null check (plan in ('anticheat', 'servermode', 'discordbot')),
+  plan text not null,
   full_name text not null default '',
   email text not null,
   note text,
@@ -197,6 +197,10 @@ create table if not exists public.purchases (
   status text not null default 'pending' check (status in ('pending', 'contacted', 'completed', 'cancelled')),
   created_at timestamptz default now()
 );
+
+-- purchases.plan holds the service slug from the catalog (see src/data/services.js).
+-- Dropped the original fixed plan list so any catalog service can be ordered.
+alter table public.purchases drop constraint if exists purchases_plan_check;
 
 alter table public.promo_codes enable row level security;
 alter table public.purchases enable row level security;
