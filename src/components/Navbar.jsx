@@ -118,7 +118,7 @@ export default function Navbar() {
                   setServicesOpen(true)
                 }}
                 className={`nav-link ${location.pathname === p('/services') ? 'active' : ''}`}
-                style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+                style={{ display: 'flex', alignItems: 'center', gap: '4px', outline: 'none' }}
                 aria-expanded={servicesOpen}
                 aria-haspopup="true"
               >
@@ -332,6 +332,9 @@ export default function Navbar() {
       )}
 
       <style>{`
+        nav .nav-link { outline: none !important; }
+        nav .nav-link:focus-visible { outline: none !important; }
+        nav .dropdown-trigger, nav .mobile-menu-btn { outline: none !important; }
         @media (max-width: 1024px) {
           .nav-links { display: none !important; }
           .nav-right-actions .mobile-menu-btn { display: flex !important; }
