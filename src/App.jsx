@@ -12,7 +12,6 @@ import Impact from './pages/Impact'
 import Developers from './pages/Developers'
 import Pricing from './pages/Pricing'
 import Buy from './pages/Buy'
-import Contact from './pages/Contact'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import SetupAccount from './pages/SetupAccount'
@@ -115,7 +114,7 @@ function LangLayout() {
             <Route path="pricing" element={<Pricing />} />
             <Route path="buy" element={<Buy />} />
             <Route path="buy/:plan" element={<Buy />} />
-            <Route path="contact" element={<Contact />} />
+            <Route path="contact" element={<RequireAuth><NewTicket /></RequireAuth>} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="auth/callback" element={<AuthCallback />} />

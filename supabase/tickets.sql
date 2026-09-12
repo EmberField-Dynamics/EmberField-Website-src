@@ -1,6 +1,6 @@
 -- Emberfield Dynamics: support tickets + licenses + staff roles
--- Run statements in the Supabase Dashboard -> SQL Editor, ONE STATEMENT AT A TIME.
--- Numbered below so you can run 1, 2, 3, ... in order.
+-- SAFE TO RE-RUN: paste the whole file into Supabase Dashboard -> SQL Editor -> Run.
+-- (If your editor complains about batches, run the numbered blocks one at a time.)
 
 -- 1) Allow 'staff' role alongside member/admin/banned
 alter table public.profiles drop constraint if exists profiles_role_check;
@@ -31,6 +31,7 @@ create table if not exists public.tickets (
 );
 
 alter table public.tickets enable row level security;
+grant select, insert, update, delete on public.tickets to authenticated, service_role;
 
 -- 4) Ticket messages (transcript)
 create table if not exists public.ticket_messages (
@@ -44,8 +45,10 @@ create table if not exists public.ticket_messages (
 );
 
 alter table public.ticket_messages enable row level security;
+grant select, insert, update, delete on public.ticket_messages to authenticated, service_role;
 
--- 5) RLS: tickets select (owner, assignee, staff)
+-- 5) Tickets RLS
+drop policy if exists "tickets select" on public.tickets;
 create policy "tickets select"
   on public.tickets for select
   using (
@@ -54,22 +57,23 @@ create policy "tickets select"
     or public.is_staff()
   );
 
--- 6) RLS: tickets insert (creator only)
+drop policy if exists "tickets insert" on public.tickets;
 create policy "tickets insert"
   on public.tickets for insert
   with check (auth.uid() = created_by);
 
--- 7) RLS: tickets update (owner or staff)
+drop policy if exists "tickets update" on public.tickets;
 create policy "tickets update"
   on public.tickets for update
   using (auth.uid() = created_by or public.is_staff());
 
--- 8) RLS: tickets delete (staff only)
+drop policy if exists "tickets delete" on public.tickets;
 create policy "tickets delete"
   on public.tickets for delete
   using (public.is_staff());
 
--- 9) RLS: messages select (participant or staff)
+-- 6) Messages RLS
+drop policy if exists "messages select" on public.ticket_messages;
 create policy "messages select"
   on public.ticket_messages for select
   using (
@@ -80,7 +84,7 @@ create policy "messages select"
     )
   );
 
--- 10) RLS: messages insert (participant or staff)
+drop policy if exists "messages insert" on public.ticket_messages;
 create policy "messages insert"
   on public.ticket_messages for insert
   with check (
@@ -91,21 +95,17 @@ create policy "messages insert"
     )
   );
 
--- 11) RLS: messages update (author owns message)
+drop policy if exists "messages update" on public.ticket_messages;
 create policy "messages update"
   on public.ticket_messages for update
   using (author_id = auth.uid());
 
--- 12) RLS: messages delete (staff, or author)
+drop policy if exists "messages delete" on public.ticket_messages;
 create policy "messages delete"
   on public.ticket_messages for delete
   using (author_id = auth.uid() or public.is_staff());
 
--- 13) Grant access
-grant select, insert, update, delete on public.tickets to authenticated, service_role;
-grant select, insert, update, delete on public.ticket_messages to authenticated, service_role;
-
--- 14) Licenses
+-- 7) Licenses
 create table if not exists public.licenses (
   id uuid primary key default gen_random_uuid(),
   license_key text unique not null,
@@ -117,33 +117,33 @@ create table if not exists public.licenses (
 );
 
 alter table public.licenses enable row level security;
+grant select, insert, update, delete on public.licenses to authenticated, service_role;
 
--- 15) Licenses RLS (owner reads own, staff reads all)
+drop policy if exists "licenses select" on public.licenses;
 create policy "licenses select"
   on public.licenses for select
   using (auth.uid() = user_id or public.is_staff());
 
--- 16) Staff can insert/update/delete licenses
+drop policy if exists "licenses admin insert" on public.licenses;
 create policy "licenses admin insert"
   on public.licenses for insert
   with check (public.is_staff());
 
+drop policy if exists "licenses admin update" on public.licenses;
 create policy "licenses admin update"
   on public.licenses for update
   using (public.is_staff());
 
+drop policy if exists "licenses admin delete" on public.licenses;
 create policy "licenses admin delete"
   on public.licenses for delete
   using (public.is_staff());
 
--- 17) Grant
-grant select on public.licenses to authenticated, service_role;
-grant insert, update, delete on public.licenses to authenticated, service_role;
-
--- 18) Staff can read all profiles (needed to resolve names across the app)
+-- 8) Staff can read all profiles (needed to resolve names across the app)
+drop policy if exists "staff read all profiles" on public.profiles;
 create policy "staff read all profiles"
   on public.profiles for select
   using (public.is_staff());
 
--- 19) Ensure messages carry a name snapshot (for existing databases)
+-- 9) Ensure messages carry a name snapshot (for existing databases)
 alter table public.ticket_messages add column if not exists author_name text not null default '';

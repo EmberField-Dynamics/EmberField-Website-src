@@ -42,6 +42,7 @@ begin
 end;
 $$;
 
+drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
@@ -88,6 +89,7 @@ begin
 end;
 $$;
 
+drop trigger if exists on_auth_user_before_insert on auth.users;
 create trigger on_auth_user_before_insert
   before insert on auth.users
   for each row execute procedure public.prevent_duplicate_email();
@@ -111,20 +113,24 @@ $$;
 
 -- RLS policies
 -- Users can read/update their own profile.
+drop policy if exists "users read own profile" on public.profiles;
 create policy "users read own profile"
   on public.profiles for select
   using (auth.uid() = id);
 
+drop policy if exists "users update own profile" on public.profiles;
 create policy "users update own profile"
   on public.profiles for update
   using (auth.uid() = id)
   with check (auth.uid() = id and role = (select role from public.profiles where id = auth.uid()));
 
 -- Admins can read and update everyone.
+drop policy if exists "admins read all profiles" on public.profiles;
 create policy "admins read all profiles"
   on public.profiles for select
   using (public.is_admin());
 
+drop policy if exists "admins update all profiles" on public.profiles;
 create policy "admins update all profiles"
   on public.profiles for update
   using (public.is_admin());
@@ -137,18 +143,22 @@ insert into storage.buckets (id, name, public)
 values ('avatars', 'avatars', true)
 on conflict (id) do nothing;
 
+drop policy if exists "public read avatars" on storage.objects;
 create policy "public read avatars"
   on storage.objects for select
   using (bucket_id = 'avatars');
 
+drop policy if exists "authenticated upload avatars" on storage.objects;
 create policy "authenticated upload avatars"
   on storage.objects for insert
   with check (bucket_id = 'avatars' and auth.role() = 'authenticated');
 
+drop policy if exists "authenticated update avatars" on storage.objects;
 create policy "authenticated update avatars"
   on storage.objects for update
   using (bucket_id = 'avatars' and auth.role() = 'authenticated');
 
+drop policy if exists "authenticated delete avatars" on storage.objects;
 create policy "authenticated delete avatars"
   on storage.objects for delete
   using (bucket_id = 'avatars' and auth.role() = 'authenticated');
@@ -219,39 +229,48 @@ end;
 $$;
 
 -- Promo codes are public only when enabled (checkout validation).
+drop policy if exists "public read enabled promo codes" on public.promo_codes;
 create policy "public read enabled promo codes"
   on public.promo_codes for select
   using (enabled = true);
 
+drop policy if exists "admins read all promo codes" on public.promo_codes;
 create policy "admins read all promo codes"
   on public.promo_codes for select
   using (public.is_admin());
 
+drop policy if exists "admins insert promo codes" on public.promo_codes;
 create policy "admins insert promo codes"
   on public.promo_codes for insert
   with check (public.is_admin());
 
+drop policy if exists "admins update promo codes" on public.promo_codes;
 create policy "admins update promo codes"
   on public.promo_codes for update
   using (public.is_admin());
 
+drop policy if exists "admins delete promo codes" on public.promo_codes;
 create policy "admins delete promo codes"
   on public.promo_codes for delete
   using (public.is_admin());
 
 -- Anyone can place an order (guest checkout); reading is restricted.
+drop policy if exists "public insert purchases" on public.purchases;
 create policy "public insert purchases"
   on public.purchases for insert
   with check (true);
 
+drop policy if exists "users read own purchases" on public.purchases;
 create policy "users read own purchases"
   on public.purchases for select
   using (auth.uid() = user_id);
 
+drop policy if exists "admins read all purchases" on public.purchases;
 create policy "admins read all purchases"
   on public.purchases for select
   using (public.is_admin());
 
+drop policy if exists "admins update purchases" on public.purchases;
 create policy "admins update purchases"
   on public.purchases for update
   using (public.is_admin());
