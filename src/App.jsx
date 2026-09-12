@@ -4,12 +4,23 @@ import { ThemeProvider } from './context/ThemeContext'
 import { LanguageProvider } from './context/LanguageContext'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { AdminProvider } from './context/AdminContext'
+import { CartProvider } from './context/CartContext'
 import Navbar from './components/Navbar'
+import CartDrawer from './components/CartDrawer'
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import Services from './pages/Services'
+import CategoryPage from './pages/CategoryPage'
+import ProductDetail from './pages/ProductDetail'
+import CartCheckout from './pages/CartCheckout'
+import Blog from './pages/Blog'
+import BlogPost from './pages/BlogPost'
+import Faq from './pages/Faq'
+import StatusPage from './pages/StatusPage'
 import Impact from './pages/Impact'
 import Developers from './pages/Developers'
+import Docs from './pages/Docs'
+import Forums from './pages/Forums'
 import Buy from './pages/Buy'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -99,17 +110,28 @@ function LangLayout() {
 
   return (
     <LanguageProvider>
-      <ScrollToTop />
-      <Navbar />
-      <div key={pathname} className="page-fade" style={{ minHeight: '60vh' }}>
-        {!validLang ? (
-          <NotFound />
-        ) : (
-          <Routes>
-            <Route index element={<Home />} />
-            <Route path="services" element={<Services />} />
-            <Route path="impact" element={<Impact />} />
-            <Route path="developers" element={<Developers />} />
+      <CartProvider>
+        <ScrollToTop />
+        <Navbar />
+        <CartDrawer />
+        <div key={pathname} className="page-fade" style={{ minHeight: '60vh' }}>
+          {!validLang ? (
+            <NotFound />
+          ) : (
+            <Routes>
+              <Route index element={<Home />} />
+              <Route path="services" element={<Services />} />
+              <Route path="services/:catId" element={<CategoryPage />} />
+              <Route path="product/:slug" element={<ProductDetail />} />
+              <Route path="blog" element={<Blog />} />
+              <Route path="blog/:slug" element={<BlogPost />} />
+              <Route path="faq" element={<Faq />} />
+              <Route path="status" element={<StatusPage />} />
+              <Route path="checkout" element={<CartCheckout />} />
+              <Route path="impact" element={<Impact />} />
+              <Route path="developers" element={<Developers />} />
+<Route path="docs" element={<Docs />} />
+<Route path="forums" element={<Forums />} />
             <Route path="pricing" element={<RedirectTo to="/services" />} />
             <Route path="buy" element={<Buy />} />
             <Route path="buy/:plan" element={<Buy />} />
@@ -140,6 +162,7 @@ function LangLayout() {
         )}
       </div>
       <Footer />
+    </CartProvider>
     </LanguageProvider>
   )
 }

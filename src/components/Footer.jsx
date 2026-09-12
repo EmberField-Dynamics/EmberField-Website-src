@@ -81,7 +81,12 @@ export default function Footer() {
             {[
               [p('/'), t.footer.home],
               [p('/services'), t.footer.services],
+              [p('/blog'), t.footer.blog],
+              [p('/faq'), t.footer.faq],
+              [p('/status'), t.footer.status],
               [p('/developers'), t.footer.developers],
+              [p('/docs'), t.footer.docs],
+              [p('/forums'), t.footer.forums],
               [p('/support/new'), t.footer.contact],
             ].map(([to, label]) => (
               <Link key={to} to={to} className="footer-link">{label}</Link>
@@ -91,7 +96,7 @@ export default function Footer() {
           <div>
             <div className="footer-heading">{t.footer.services}</div>
             {serviceLinks.map((opt) => (
-              <Link key={opt.id} to={opt.id ? `${p('/services')}#${opt.id}` : p('/services')} className="footer-link">
+              <Link key={opt.id} to={opt.id ? `${p('/services')}/${opt.id}` : p('/services')} className="footer-link">
                 {opt.title}
               </Link>
             ))}

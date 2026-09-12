@@ -50,10 +50,10 @@ export default function Services() {
           {CATEGORIES.map((cat) => {
             const meta = catMeta(cat.id)
             return (
-              <a key={cat.id} href={`${p('/services')}#${cat.id}`} className="category-chip">
+              <Link key={cat.id} to={p(`/services/${cat.id}`)} className="category-chip">
                 {cat.icon}
                 {meta.title}
-              </a>
+              </Link>
             )
           })}
         </div>

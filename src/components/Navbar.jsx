@@ -3,12 +3,14 @@ import { Link, useLocation } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
 import { useAuth } from '../context/AuthContext'
+import { useCart } from '../context/CartContext'
 import LanguageSelector from './LanguageSelector'
 
 export default function Navbar() {
   const { lang, t } = useLanguage()
   const { theme, toggleTheme } = useTheme()
   const { user, logout } = useAuth()
+  const { count, setOpen } = useCart()
   const location = useLocation()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -49,6 +51,7 @@ export default function Navbar() {
     ['/developers', t.nav.developers],
     ['/docs', t.nav.docs],
     ['/forums', t.nav.forums],
+    ['/blog', t.nav.blog],
     ['/support/new', t.nav.contact],
   ]
 
@@ -133,7 +136,7 @@ export default function Navbar() {
                       <Link
                         key={i}
                         className="dropdown-item"
-                        to={opt.id ? `${p('/services')}#${opt.id}` : p('/services')}
+                        to={opt.id ? `${p('/services')}/${opt.id}` : p('/services')}
                         onClick={() => setServicesOpen(false)}
                       >
                         <div style={{ fontSize: '14px', fontWeight: 600 }}>{opt.title}</div>
@@ -159,6 +162,25 @@ export default function Navbar() {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }} className="nav-right-actions">
+          <button
+            onClick={() => setOpen(true)}
+            className="icon-btn"
+            style={{ position: 'relative' }}
+            aria-label={t.cart.title}
+          >
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" />
+              <path d="M1 1 h4 l2.68 13.39 a2 2 0 0 0 2 1.61 h9.72 a2 2 0 0 0 2-1.61 L23 6 H6" />
+            </svg>
+            {count > 0 && (
+              <span style={{
+                position: 'absolute', top: '0', right: '0', minWidth: '16px', height: '16px',
+                padding: '0 4px', borderRadius: '8px', background: '#10B981', color: '#000',
+                fontSize: '10px', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>{count}</span>
+            )}
+          </button>
+
           {!user && (
             <Link
               to={p('/register')}
@@ -279,7 +301,7 @@ export default function Navbar() {
         }}>
           {serviceOptions.map((opt, i) => (
             <Link key={i}
-              to={opt.id ? `${p('/services')}#${opt.id}` : p('/services')}
+              to={opt.id ? `${p('/services')}/${opt.id}` : p('/services')}
               style={{ padding: '12px 16px', fontSize: '16px', fontWeight: 500, borderRadius: 0, color: 'var(--text)', background: 'transparent', border: 'none', transition: 'background 0.15s' }}
             >
               {opt.title}

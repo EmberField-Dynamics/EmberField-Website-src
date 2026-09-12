@@ -187,6 +187,59 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(-4px);
 }
 
+/* Store product cards */
+.store-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 28px 26px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  position: relative;
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.store-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 40px rgba(16, 185, 129, 0.1);
+}
+.store-card.popular {
+  border: 2px solid var(--primary);
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.08) 0%, var(--card-bg) 100%);
+  box-shadow: 0 8px 40px rgba(16, 185, 129, 0.15);
+}
+
+.store-popular {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 16px;
+  background: var(--primary);
+  color: #000;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.arrow-link:hover { color: var(--primary); }
+
 /* Button system */
 .btn-primary {
   display: inline-flex;
