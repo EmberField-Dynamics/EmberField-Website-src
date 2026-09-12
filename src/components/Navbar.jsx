@@ -43,8 +43,7 @@ export default function Navbar() {
   }, [servicesOpen, userOpen])
 
   const p = (path) => `/${lang}${path}`
-  const isDark = theme === 'dark'
-  const logoSrc = isDark ? '/white-color-logo.png' : '/gray-color-logo.png'
+  const logoSrc = theme === 'dark' ? '/white-color-logo.png' : '/gray-color-logo.png'
 
   const navLinks = [
     ['/developers', t.nav.developers],
@@ -55,14 +54,12 @@ export default function Navbar() {
 
   const serviceOptions = t.nav.serviceOptions || []
 
-  const serviceActive = location.pathname === p('/services')
-
-  const linkBase = {
-    fontSize: '14px', fontWeight: 500, transition: 'color 0.2s',
-    letterSpacing: '0.2px', padding: '6px 0',
-  }
-
-  const linkColor = (active) => active ? (isDark ? '#FFFFFF' : '#0F172A') : (isDark ? '#94A3B8' : '#64748B')
+  const userMenu = [
+    { to: '/dashboard', label: t.nav.dashboard },
+    { to: '/settings/my-profile', label: t.nav.profileSettings },
+    { to: '/support', label: t.nav.support },
+    ...(user && (user.role === 'staff' || user.role === 'admin') ? [{ to: '/admin', label: t.nav.admin }] : []),
+  ]
 
   const chevronSvg = (open) => (
     <svg
@@ -84,13 +81,11 @@ export default function Navbar() {
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 60, height: '64px',
         display: 'flex', alignItems: 'center', padding: '0 32px',
         justifyContent: 'space-between',
-        background: isDark
-          ? (scrolled ? 'rgba(3,7,18,0.92)' : 'rgba(3,7,18,0.6)')
-          : (scrolled ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.7)'),
+        background: scrolled ? 'var(--glass-bg-solid)' : 'var(--glass-bg)',
         backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-        borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
+        borderBottom: '1px solid var(--border)',
         transition: 'background 0.3s, box-shadow 0.3s',
-        boxShadow: scrolled ? (isDark ? '0 4px 30px rgba(0,0,0,0.3)' : '0 4px 30px rgba(0,0,0,0.06)') : 'none',
+        boxShadow: scrolled ? 'var(--shadow)' : 'none',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '40px', minWidth: 0 }}>
           <Link to={p('/')} style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', flexShrink: 0 }}>
@@ -101,7 +96,7 @@ export default function Navbar() {
             />
             <span style={{
               fontSize: '16px', fontWeight: 700, letterSpacing: '-0.3px',
-              color: isDark ? '#FFFFFF' : '#1F2937', whiteSpace: 'nowrap',
+              color: 'var(--text)', whiteSpace: 'nowrap',
             }}>
               Emberfield Dynamics
             </span>
@@ -117,17 +112,10 @@ export default function Navbar() {
               <button
                 onClick={(e) => {
                   e.stopPropagation()
-                  setServicesOpen(!servicesOpen)
+                  setServicesOpen(true)
                 }}
-                style={{
-                  ...linkBase,
-                  background: 'transparent', border: 'none', cursor: 'pointer',
-                  display: 'flex', alignItems: 'center', gap: '4px',
-                  color: serviceActive ? (isDark ? '#FFFFFF' : '#0F172A') : (isDark ? '#94A3B8' : '#64748B'),
-                  borderBottom: serviceActive ? `2px solid ${isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.15)'}` : '2px solid transparent',
-                }}
-                onMouseEnter={e => e.currentTarget.style.color = isDark ? '#FFFFFF' : '#0F172A'}
-                onMouseLeave={e => e.currentTarget.style.color = serviceActive ? (isDark ? '#FFFFFF' : '#0F172A') : (isDark ? '#94A3B8' : '#64748B')}
+                className={`nav-link ${location.pathname === p('/services') ? 'active' : ''}`}
+                style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
                 aria-expanded={servicesOpen}
                 aria-haspopup="true"
               >
@@ -137,36 +125,24 @@ export default function Navbar() {
 
               {servicesOpen && (
                 <div style={{
-                  position: 'absolute', top: 'calc(100% + 10px)', left: 0, zIndex: 70,
-                  minWidth: '300px', padding: '8px',
-                  background: isDark ? 'rgba(3,7,18,0.98)' : 'rgba(255,255,255,0.98)',
-                  backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-                  border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'}`,
-                  borderRadius: 0,
-                  boxShadow: isDark ? '0 12px 40px rgba(0,0,0,0.5)' : '0 12px 40px rgba(0,0,0,0.1)',
-                  animation: 'fadeIn 0.15s ease',
+                  position: 'absolute', top: '100%', left: 0, zIndex: 70,
+                  minWidth: '300px', paddingTop: '10px',
                 }}>
-                  {serviceOptions.map((opt, i) => (
-                    <Link
-                      key={i}
-                      to={opt.id ? `${p('/services')}#${opt.id}` : p('/services')}
-                      onClick={() => setServicesOpen(false)}
-                      style={{
-                        display: 'block', padding: '10px 12px', borderRadius: 0,
-                        textDecoration: 'none', transition: 'background 0.15s',
-                      }}
-                      onMouseEnter={e => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'}
-                      onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-                    >
-                      <div style={{
-                        fontSize: '14px', fontWeight: 600, color: isDark ? '#FFFFFF' : '#0F172A',
-                      }}>{opt.title}</div>
-                      <div style={{
-                        fontSize: '12.5px', color: isDark ? '#94A3B8' : '#64748B', marginTop: '3px',
-                        lineHeight: 1.4,
-                      }}>{opt.desc}</div>
-                    </Link>
-                  ))}
+                  <div className="dropdown-panel" style={{ padding: '8px', borderRadius: 0 }}>
+                    {serviceOptions.map((opt, i) => (
+                      <Link
+                        key={i}
+                        className="dropdown-item"
+                        to={opt.id ? `${p('/services')}#${opt.id}` : p('/services')}
+                        onClick={() => setServicesOpen(false)}
+                      >
+                        <div style={{ fontSize: '14px', fontWeight: 600 }}>{opt.title}</div>
+                        <div style={{ fontSize: '12.5px', color: 'var(--text-secondary)', marginTop: '3px', lineHeight: 1.4, fontWeight: 400 }}>
+                          {opt.desc}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -174,14 +150,9 @@ export default function Navbar() {
             {navLinks.map(([path, label]) => {
               const active = location.pathname === `/${lang}${path}`
               return (
-                <Link key={path} to={p(path)} style={{
-                  ...linkBase,
-                  color: linkColor(active),
-                  borderBottom: active ? `2px solid ${isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.15)'}` : '2px solid transparent',
-                }}
-                  onMouseEnter={e => e.target.style.color = isDark ? '#FFFFFF' : '#0F172A'}
-                  onMouseLeave={e => e.target.style.color = linkColor(active)}
-                >{label}</Link>
+                <Link key={path} to={p(path)} className={`nav-link ${active ? 'active' : ''}`}>
+                  {label}
+                </Link>
               )
             })}
           </div>
@@ -189,25 +160,15 @@ export default function Navbar() {
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }} className="nav-right-actions">
           {!user && (
-            <Link to={p('/register')} style={{
-              padding: '9px 18px', borderRadius: 0, border: 'none',
-              background: '#10B981', color: '#000', fontSize: '13px',
-              fontWeight: 700, transition: 'all 0.2s', letterSpacing: '0.2px',
-            }}
-              onMouseEnter={e => { e.currentTarget.style.background = '#059669' }}
-              onMouseLeave={e => { e.currentTarget.style.background = '#10B981' }}
+            <Link
+              to={p('/register')}
+              className="btn-primary btn-slim"
+              style={{ background: 'var(--primary)', color: '#000', height: '38px', padding: '0 18px', fontSize: '13px' }}
             >{t.nav.signUp}</Link>
           )}
 
           {!user && (
-            <Link to={p('/login')} style={{
-              padding: '9px 16px', borderRadius: 0, border: 'none',
-              background: 'transparent', color: isDark ? '#94A3B8' : '#64748B',
-              fontSize: '13px', fontWeight: 600, transition: 'color 0.2s',
-            }}
-              onMouseEnter={e => e.target.style.color = isDark ? '#FFFFFF' : '#0F172A'}
-              onMouseLeave={e => e.target.style.color = isDark ? '#94A3B8' : '#64748B'}
-            >{t.nav.signIn}</Link>
+            <Link to={p('/login')} className="nav-link" style={{ padding: '6px 12px' }}>{t.nav.signIn}</Link>
           )}
 
           {user && (
@@ -218,16 +179,16 @@ export default function Navbar() {
                 aria-haspopup="true"
                 style={{
                   display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 14px',
-                  border: `1px solid ${userOpen ? 'rgba(16,185,129,0.5)' : 'rgba(16,185,129,0.25)'}`,
-                  background: userOpen ? 'rgba(16,185,129,0.15)' : 'rgba(16,185,129,0.1)',
-                  color: '#10B981', fontSize: '13px', fontWeight: 600, cursor: 'pointer',
+                  border: `1px solid ${userOpen ? 'rgba(16,185,129,0.5)' : 'var(--badge-border)'}`,
+                  background: 'var(--badge-bg)',
+                  color: 'var(--primary)', fontSize: '13px', fontWeight: 600, cursor: 'pointer',
                   transition: 'border-color 0.2s, background 0.2s', borderRadius: 0,
                 }}
               >
                 <div style={{
-                  width: '24px', height: '24px', borderRadius: '50%', overflow: 'hidden',
+                  width: '24px', height: '24px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0,
                   background: 'linear-gradient(135deg, #10B981, #059669)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
                   {user.avatar ? (
                     <img src={user.avatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -241,46 +202,30 @@ export default function Navbar() {
 
               {userOpen && (
                 <div style={{
-                  position: 'absolute', right: 0, top: 'calc(100% + 10px)', zIndex: 70,
-                  minWidth: '220px', padding: '8px',
-                  background: isDark ? 'rgba(3,7,18,0.98)' : 'rgba(255,255,255,0.98)',
-                  backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-                  border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'}`,
-                  borderRadius: 0, boxShadow: isDark ? '0 12px 40px rgba(0,0,0,0.5)' : '0 12px 40px rgba(0,0,0,0.1)',
-                  animation: 'fadeIn 0.15s ease',
+                  position: 'absolute', right: 0, top: '100%', zIndex: 70,
+                  minWidth: '220px', paddingTop: '10px',
                 }}>
-                  <div style={{
-                    padding: '10px 12px', marginBottom: '6px',
-                    borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}`,
-                  }}>
-                    <div style={{ fontSize: '13px', fontWeight: 700, color: isDark ? '#FFFFFF' : '#0F172A' }}>{user.name}</div>
-                    <div style={{ fontSize: '11px', color: isDark ? '#94A3B8' : '#64748B', marginTop: '2px', fontFamily: 'monospace' }}>{user.role.toUpperCase()}</div>
+                  <div className="dropdown-panel" style={{ padding: '8px', borderRadius: 0 }}>
+                    <div style={{
+                      padding: '10px 12px', marginBottom: '6px',
+                      borderBottom: '1px solid var(--border)',
+                    }}>
+                      <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text)' }}>{user.name}</div>
+                      <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px', fontFamily: 'monospace' }}>{user.role.toUpperCase()}</div>
+                    </div>
+
+                    {userMenu.map(item => (
+                      <Link key={item.to} to={p(item.to)} className="dropdown-item" onClick={() => setUserOpen(false)}>
+                        {item.label}
+                      </Link>
+                    ))}
+
+                    <button
+                      className="dropdown-item"
+                      onClick={() => { setUserOpen(false); logout(); window.location.href = `/${lang}/` }}
+                      style={{ color: '#DC2626' }}
+                    >{t.nav.logout}</button>
                   </div>
-
-                  {[
-                    { to: '/dashboard', label: 'Dashboard' },
-                    { to: '/settings/my-profile', label: 'Profile Settings' },
-                    { to: '/support', label: 'Support' },
-                    ...(user.role === 'staff' || user.role === 'admin' ? [{ to: '/admin', label: 'Admin' }] : []),
-                  ].map(item => (
-                    <Link key={item.to} to={p(item.to)} onClick={() => setUserOpen(false)} style={{
-                      display: 'block', padding: '10px 12px', fontSize: '13px', fontWeight: 600,
-                      color: isDark ? '#FFFFFF' : '#0F172A', textDecoration: 'none',
-                      transition: 'background 0.15s', borderRadius: 0, textTransform: 'none',
-                    }}
-                      onMouseEnter={e => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'}
-                      onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-                    >{item.label}</Link>
-                  ))}
-
-                  <button onClick={() => { setUserOpen(false); logout(); window.location.href = `/${lang}/` }} style={{
-                    display: 'block', width: '100%', textAlign: 'left', padding: '10px 12px',
-                    fontSize: '13px', fontWeight: 600, color: '#DC2626', background: 'transparent',
-                    border: 'none', cursor: 'pointer', borderRadius: 0, transition: 'background 0.15s',
-                  }}
-                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(220,38,38,0.1)' }}
-                    onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}
-                  >Logout</button>
                 </div>
               )}
             </div>
@@ -288,17 +233,8 @@ export default function Navbar() {
 
           <LanguageSelector />
 
-          <button onClick={toggleTheme} style={{
-            width: '36px', height: '36px', borderRadius: 0,
-            border: 'none', background: 'transparent',
-            color: isDark ? '#94A3B8' : '#64748B',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            transition: 'color 0.2s', cursor: 'pointer',
-          }}
-            onMouseEnter={e => e.currentTarget.style.color = isDark ? '#FFFFFF' : '#0F172A'}
-            onMouseLeave={e => e.currentTarget.style.color = isDark ? '#94A3B8' : '#64748B'}
-          >
-            {isDark ? (
+          <button onClick={toggleTheme} className="icon-btn" aria-label="Toggle theme">
+            {theme === 'dark' ? (
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
               </svg>
@@ -319,13 +255,9 @@ export default function Navbar() {
 
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="mobile-menu-btn"
-            style={{
-              display: 'none', width: '36px', height: '36px', borderRadius: 0,
-              border: 'none', background: 'transparent',
-              color: isDark ? '#94A3B8' : '#64748B',
-              alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
-            }}
+            className="mobile-menu-btn icon-btn"
+            style={{ display: 'none' }}
+            aria-label="Toggle menu"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               {mobileOpen
@@ -340,46 +272,38 @@ export default function Navbar() {
       {mobileOpen && (
         <div style={{
           position: 'fixed', top: '64px', left: 0, right: 0, bottom: 0,
-          background: isDark ? 'rgba(3,7,18,0.95)' : 'rgba(255,255,255,0.95)',
+          background: 'var(--glass-bg-solid)',
           backdropFilter: 'blur(20px)',
           zIndex: 55, padding: '24px', display: 'flex', flexDirection: 'column', gap: '8px',
           animation: 'fadeIn 0.2s ease',
         }}>
           {serviceOptions.map((opt, i) => (
-            <Link key={i} to={opt.id ? `${p('/services')}#${opt.id}` : p('/services')} style={{
-              padding: '12px 16px', fontSize: '16px', fontWeight: 500, borderRadius: 0,
-              color: isDark ? '#FFFFFF' : '#0F172A',
-              background: 'transparent',
-              border: 'none', transition: 'background 0.15s',
-            }}>
+            <Link key={i}
+              to={opt.id ? `${p('/services')}#${opt.id}` : p('/services')}
+              style={{ padding: '12px 16px', fontSize: '16px', fontWeight: 500, borderRadius: 0, color: 'var(--text)', background: 'transparent', border: 'none', transition: 'background 0.15s' }}
+            >
               {opt.title}
-              <span style={{
-                display: 'block', fontSize: '12.5px', fontWeight: 400,
-                color: isDark ? '#94A3B8' : '#64748B', marginTop: '3px',
-              }}>{opt.desc}</span>
+              <span style={{ display: 'block', fontSize: '12.5px', fontWeight: 400, color: 'var(--text-secondary)', marginTop: '3px' }}>{opt.desc}</span>
             </Link>
           ))}
           {navLinks.map(([path, label]) => (
             <Link key={path} to={p(path)} style={{
               padding: '14px 16px', fontSize: '16px', fontWeight: 500, borderRadius: 0,
-              color: isDark ? '#FFFFFF' : '#0F172A',
-              background: location.pathname === `/${lang}${path}` ? 'rgba(16,185,129,0.1)' : 'transparent',
+              color: 'var(--text)',
+              background: location.pathname === `/${lang}${path}` ? 'var(--hover-bg)' : 'transparent',
               border: 'none', transition: 'background 0.15s',
             }}>{label}</Link>
           ))}
           {user && (
             <>
               <div style={{ padding: '14px 16px 4px', fontSize: '12px', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1px' }}>{user.name} — {user.role}</div>
-              <Link to={p('/dashboard')} style={{ padding: '14px 16px', fontSize: '16px', fontWeight: 500, borderRadius: 0, color: isDark ? '#FFFFFF' : '#0F172A', background: 'transparent', border: 'none', transition: 'background 0.15s' }}>Dashboard</Link>
-              <Link to={p('/settings/my-profile')} style={{ padding: '14px 16px', fontSize: '16px', fontWeight: 500, borderRadius: 0, color: isDark ? '#FFFFFF' : '#0F172A', background: 'transparent', border: 'none', transition: 'background 0.15s' }}>Profile Settings</Link>
-              <Link to={p('/support')} style={{ padding: '14px 16px', fontSize: '16px', fontWeight: 500, borderRadius: 0, color: isDark ? '#FFFFFF' : '#0F172A', background: 'transparent', border: 'none', transition: 'background 0.15s' }}>Support</Link>
-              {(user.role === 'staff' || user.role === 'admin') && (
-                <Link to={p('/admin')} style={{ padding: '14px 16px', fontSize: '16px', fontWeight: 500, borderRadius: 0, color: isDark ? '#FFFFFF' : '#0F172A', background: 'transparent', border: 'none', transition: 'background 0.15s' }}>Admin</Link>
-              )}
+              {userMenu.map(item => (
+                <Link key={item.to} to={p(item.to)} style={{ padding: '14px 16px', fontSize: '16px', fontWeight: 500, borderRadius: 0, color: 'var(--text)', background: 'transparent', border: 'none', transition: 'background 0.15s' }}>{item.label}</Link>
+              ))}
               <button onClick={() => { setMobileOpen(false); logout(); window.location.href = `/${lang}/` }} style={{
                 padding: '14px 16px', fontSize: '16px', fontWeight: 500, borderRadius: 0,
                 color: '#DC2626', background: 'transparent', border: 'none', textAlign: 'left', cursor: 'pointer',
-              }}>Logout</button>
+              }}>{t.nav.logout}</button>
             </>
           )}
         </div>

@@ -159,16 +159,9 @@ export default function Home() {
                 marginTop: '40px', display: 'flex', flexWrap: 'wrap',
                 alignItems: 'center', gap: '16px',
               }}>
-                <Link to={p('/register')} style={{
-                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                  padding: '14px 28px', background: '#1A1A1A',
-                  color: '#fff', fontSize: '14px', fontWeight: 700,
-                  textTransform: 'uppercase', letterSpacing: '1px', border: 'none',
-                  transition: 'background 0.2s',
-                }}
-                  onMouseEnter={e => e.currentTarget.style.background = '#000'}
-                  onMouseLeave={e => e.currentTarget.style.background = '#1A1A1A'}
-                >{t.home.cta1}</Link>
+                <Link to={p('/register')} className="btn-primary">
+                  {t.home.cta1}
+                </Link>
                 <Link to={p('/services')} style={{
                   display: 'inline-flex', alignItems: 'center', gap: '6px',
                   fontSize: '14px', fontWeight: 500, color: '#fff',
@@ -221,21 +214,13 @@ export default function Home() {
           <Reveal delay={100}>
           <div style={{ marginBottom: '64px' }}>
             <div className="carousel-row" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <button type="button" onClick={prev} aria-label="Previous slide" className="carousel-btn" style={{
-                flexShrink: 0, width: '36px', height: '36px', borderRadius: '4px',
-                border: '1px solid var(--border-hover)', background: 'var(--surface)',
-                color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                cursor: 'pointer', transition: 'background 0.2s, color 0.2s',
-              }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface-hover)'; e.currentTarget.style.color = 'var(--text)' }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'var(--surface)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
-              >
+              <button type="button" onClick={prev} aria-label="Previous slide" className="carousel-btn">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
               </button>
 
               <div style={{
                 position: 'relative', flex: 1, overflow: 'hidden',
-                borderRadius: '4px', border: '1px solid var(--border-hover)',
+                border: '1px solid var(--border-hover)',
                 background: 'var(--bg)', aspectRatio: '1200/350',
               }}>
                 {BANNERS.map((b, i) => {
@@ -258,15 +243,7 @@ export default function Home() {
                 })}
               </div>
 
-              <button type="button" onClick={next} aria-label="Next slide" className="carousel-btn" style={{
-                flexShrink: 0, width: '36px', height: '36px', borderRadius: '4px',
-                border: '1px solid var(--border-hover)', background: 'var(--surface)',
-                color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                cursor: 'pointer', transition: 'background 0.2s, color 0.2s',
-              }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface-hover)'; e.currentTarget.style.color = 'var(--text)' }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'var(--surface)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
-              >
+              <button type="button" onClick={next} aria-label="Next slide" className="carousel-btn">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
               </button>
             </div>
@@ -374,7 +351,7 @@ export default function Home() {
                   }} className="process-line" />
                 )}
                 <div style={{
-                  position: 'relative', width: '64px', height: '64px', borderRadius: '2px',
+                  position: 'relative', width: '64px', height: '64px',
                   border: '2px solid var(--border)', background: 'var(--card-bg)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   boxShadow: '0 1px 2px rgba(0,0,0,0.05)', zIndex: 1,
@@ -416,9 +393,9 @@ export default function Home() {
               {securityItems.map((item, i) => (
                 <div key={i} style={{ display: 'flex', gap: '16px' }}>
                   <div style={{
-                    flexShrink: 0, width: '40px', height: '40px', borderRadius: '2px',
-                    background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#10B981',
+                    flexShrink: 0, width: '40px', height: '40px',
+                    background: 'var(--badge-bg)', border: '1px solid var(--badge-border)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)',
                   }}>{item.icon}</div>
                   <div>
                     <h4 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--text)' }}>{item.title}</h4>
@@ -453,26 +430,12 @@ export default function Home() {
             <div className="cta-buttons" style={{
               marginTop: '40px', display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap',
             }}>
-              <Link to={p('/register')} style={{
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                padding: '24px 32px', background: 'var(--primary)', color: '#000',
-                fontSize: '16px', fontWeight: 600, border: 'none', borderRadius: '6px',
-                transition: 'opacity 0.2s',
-              }}
-                onMouseEnter={e => e.currentTarget.style.opacity = '0.9'}
-                onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-              >{t.cta.btn1}</Link>
-              <Link to={p('/support/new')} style={{
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                padding: '24px 32px', background: 'transparent',
-                border: '1px solid var(--border-hover)', color: 'var(--text)',
-                borderRadius: '6px',
-                fontSize: '16px', fontWeight: 600, boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-                transition: 'all 0.2s',
-              }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface-hover)'; e.currentTarget.style.borderColor = 'var(--primary)' }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'var(--border-hover)' }}
-              >{t.cta.btn2}</Link>
+<Link to={p('/register')} className="btn-primary" style={{ padding: '16px 32px', fontSize: '16px' }}>
+                  {t.cta.btn1}
+                </Link>
+                <Link to={p('/support/new')} className="btn-ghost" style={{ padding: '16px 32px', fontSize: '16px' }}>
+                  {t.cta.btn2}
+                </Link>
             </div>
           </div>
           </Reveal>
@@ -501,6 +464,23 @@ export default function Home() {
         .carousel-row { gap: 8px !important; }
         .carousel-btn { width: 36px !important; height: 36px !important; }
         .cta-title { font-size: 30px; }
+
+        .carousel-btn {
+          flex-shrink: 0;
+          border: 1px solid var(--border-hover);
+          background: var(--surface);
+          color: var(--text-secondary);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+        .carousel-btn:hover {
+          background: var(--surface-hover);
+          color: var(--text);
+          border-color: var(--primary);
+        }
 
         @media (min-width: 640px) {
           .hero-section { padding: 128px 0 0; }

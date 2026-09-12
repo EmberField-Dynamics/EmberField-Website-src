@@ -29,15 +29,7 @@ export default function Impact() {
       }}>
         {stats.map((s, i) => (
           <Reveal key={i} delay={i * 90}>
-          <div style={{
-            padding: '48px 36px', borderRadius: 0,
-            border: '1px solid var(--border)', background: 'var(--card-bg)',
-            backdropFilter: 'blur(10px)', textAlign: 'center',
-            transition: 'all 0.3s',
-          }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = 'none' }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}
-          >
+          <div className="card-lift" style={{ padding: '48px 36px', textAlign: 'center' }}>
             <div style={{
               fontSize: 'clamp(36px, 4vw, 52px)', fontWeight: 900, letterSpacing: '-2px',
               marginBottom: '8px',
@@ -54,10 +46,8 @@ export default function Impact() {
       </div>
 
       <Reveal delay={150}>
-      <div style={{
-        marginTop: '80px', padding: '48px', borderRadius: 0,
-        border: '1px solid var(--border)', background: 'var(--card-bg)',
-        backdropFilter: 'blur(10px)', textAlign: 'center',
+      <div className="card-lift" style={{
+        marginTop: '80px', padding: '48px', textAlign: 'center',
       }}>
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="1" style={{ marginBottom: '20px', opacity: 0.5 }}>
           <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V21z"/>
@@ -67,10 +57,10 @@ export default function Impact() {
           fontSize: '20px', color: 'var(--muted)', lineHeight: 1.8,
           maxWidth: '700px', margin: '0 auto 24px', fontStyle: 'italic',
         }}>
-          &ldquo;Emberfield Dynamics transformed our Minecraft network infrastructure. Their technical expertise and 24/7 support made the transition seamless. We saw a 40% improvement in player retention within the first month.&rdquo;
+          {t.impact.quote}
         </p>
-        <div style={{ fontSize: '16px', fontWeight: 700, color: 'var(--text)' }}>Alex Johnson</div>
-        <div style={{ fontSize: '14px', color: 'var(--text-secondary)', marginTop: '4px' }}>CTO, PixelCraft Studios</div>
+        <div style={{ fontSize: '16px', fontWeight: 700, color: 'var(--text)' }}>{t.impact.quoteName}</div>
+        <div style={{ fontSize: '14px', color: 'var(--text-secondary)', marginTop: '4px' }}>{t.impact.quoteRole}</div>
       </div>
       </Reveal>
     </div>

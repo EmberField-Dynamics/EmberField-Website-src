@@ -29,13 +29,6 @@ export default function Register() {
     }
   }
 
-  const inputStyle = {
-    width: '100%', height: '52px', padding: '0 18px', borderRadius: 0,
-    border: '1px solid var(--border)', background: 'var(--input-bg)',
-    color: 'var(--text)', fontSize: '15px', outline: 'none',
-    transition: 'all 0.2s',
-  }
-
   return (
     <div style={{ display: 'flex', minHeight: 'calc(100vh - 72px)', marginTop: '64px' }} className="register-split">
       <div style={{
@@ -53,7 +46,7 @@ export default function Register() {
           color: '#F8FAFC', lineHeight: 1.5, textAlign: 'center',
           maxWidth: '380px', position: 'relative', zIndex: 1,
         }}>
-          Join the future of digital infrastructure.
+          {t.register.tagline}
         </p>
       </div>
 
@@ -78,10 +71,8 @@ export default function Register() {
               <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '8px' }}>{t.register.name}</label>
               <input
                 type="text" required
+                className="field"
                 value={form.name} onChange={e => setForm({...form, name: e.target.value})}
-                style={inputStyle}
-                onFocus={e => e.target.style.borderColor = 'var(--primary)'}
-                onBlur={e => e.target.style.borderColor = 'var(--border)'}
               />
             </div>
 
@@ -89,10 +80,8 @@ export default function Register() {
               <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '8px' }}>{t.register.email}</label>
               <input
                 type="email" required
+                className="field"
                 value={form.email} onChange={e => setForm({...form, email: e.target.value})}
-                style={inputStyle}
-                onFocus={e => e.target.style.borderColor = 'var(--primary)'}
-                onBlur={e => e.target.style.borderColor = 'var(--border)'}
               />
             </div>
 
@@ -100,10 +89,8 @@ export default function Register() {
               <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '8px' }}>{t.register.password}</label>
               <input
                 type="password" required
+                className="field"
                 value={form.password} onChange={e => setForm({...form, password: e.target.value})}
-                style={inputStyle}
-                onFocus={e => e.target.style.borderColor = 'var(--primary)'}
-                onBlur={e => e.target.style.borderColor = 'var(--border)'}
               />
             </div>
 
@@ -111,10 +98,8 @@ export default function Register() {
               <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '8px' }}>{t.register.confirm}</label>
               <input
                 type="password" required
+                className="field"
                 value={form.confirm} onChange={e => setForm({...form, confirm: e.target.value})}
-                style={inputStyle}
-                onFocus={e => e.target.style.borderColor = 'var(--primary)'}
-                onBlur={e => e.target.style.borderColor = 'var(--border)'}
               />
             </div>
 
@@ -125,15 +110,9 @@ export default function Register() {
               </label>
             </div>
 
-            <button type="submit" disabled={loading} style={{
-              width: '100%', height: '52px', borderRadius: 0, border: 'none',
-              background: 'var(--primary)', color: '#000', fontSize: '15px', fontWeight: 700,
-              cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1,
-              transition: 'all 0.25s', marginBottom: '24px',
-            }}
-              onMouseEnter={e => { if (!loading) e.currentTarget.style.boxShadow = 'none' }}
-              onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none' }}
-            >{loading ? 'Creating account...' : t.register.btn}</button>
+            <button type="submit" disabled={loading} className="btn-primary btn-block" style={{ marginBottom: '24px', opacity: loading ? 0.7 : 1 }}>
+              {loading ? t.register.signingUp : t.register.btn}
+            </button>
           </form>
 
           <p style={{ textAlign: 'center', fontSize: '14px', color: 'var(--text-secondary)' }}>

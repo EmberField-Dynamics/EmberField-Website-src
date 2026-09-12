@@ -20,16 +20,7 @@ export default function NotFound() {
         <p style={{ fontSize: '16px', color: 'var(--muted)', marginBottom: '36px', maxWidth: '400px' }}>
           {t.notFound.desc}
         </p>
-        <Link to={`/${lang}/`} style={{
-          display: 'inline-flex', alignItems: 'center', gap: '8px',
-          padding: '14px 32px', borderRadius: 0, border: 'none',
-          background: 'var(--primary)', color: '#000',
-          fontSize: '15px', fontWeight: 700, transition: 'all 0.25s',
-          boxShadow: 'none',
-        }}
-          onMouseEnter={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(-2px)' }}
-          onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none' }}
-        >
+        <Link to={`/${lang}/`} className="btn-primary">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
           {t.notFound.home}
         </Link>

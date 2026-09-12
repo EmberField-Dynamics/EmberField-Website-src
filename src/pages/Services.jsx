@@ -31,12 +31,11 @@ export default function Services() {
       <Reveal style={{ textAlign: 'center', marginBottom: '48px' }}>
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: '8px',
-          padding: '6px 18px', borderRadius: '50px',
-          border: '1px solid var(--badge-border)', background: 'var(--badge-bg)',
+          padding: '6px 18px', border: '1px solid var(--badge-border)', background: 'var(--badge-bg)',
           marginBottom: '24px', fontSize: '12px', fontWeight: 600,
           color: 'var(--primary)', letterSpacing: '1px', textTransform: 'uppercase',
         }}>
-          Our Products
+          {t.services.badge}
         </div>
         <h1 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 900, letterSpacing: '-1px', marginBottom: '16px' }}>
           {t.services.title}
@@ -51,19 +50,7 @@ export default function Services() {
           {CATEGORIES.map((cat) => {
             const meta = catMeta(cat.id)
             return (
-              <a
-                key={cat.id}
-                href={`${p('/services')}#${cat.id}`}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '8px',
-                  padding: '10px 18px', borderRadius: '50px', textDecoration: 'none',
-                  border: '1px solid var(--border)', background: 'var(--badge-bg)',
-                  fontSize: '13px', fontWeight: 700, color: 'var(--text)',
-                  transition: 'all 0.25s',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.color = 'var(--primary)' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text)' }}
-              >
+              <a key={cat.id} href={`${p('/services')}#${cat.id}`} className="category-chip">
                 {cat.icon}
                 {meta.title}
               </a>
@@ -79,7 +66,7 @@ export default function Services() {
           <section key={cat.id} id={cat.id} style={{ scrollMarginTop: '90px', marginBottom: '72px' }}>
             <Reveal style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '28px' }}>
               <div style={{
-                width: '52px', height: '52px', flexShrink: 0, borderRadius: '14px',
+                width: '52px', height: '52px', flexShrink: 0,
                 background: 'var(--badge-bg)', border: '1px solid var(--badge-border)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>{cat.icon}</div>
@@ -97,42 +84,9 @@ export default function Services() {
             }}>
               {items.map((product, i) => (
                 <Reveal key={product.slug} delay={(ci * 40 + i) * 60} style={{ height: '100%' }}>
-                  <div style={{
-                    display: 'flex', flexDirection: 'column', height: '100%',
-                    padding: '32px 30px', borderRadius: '18px',
-                    border: product.popular ? '2px solid var(--primary)' : '1px solid var(--border)',
-                    background: product.popular
-                      ? 'linear-gradient(180deg, rgba(16,185,129,0.08) 0%, var(--card-bg) 100%)'
-                      : 'var(--card-bg)',
-                    backdropFilter: 'blur(10px)', position: 'relative',
-                    transition: 'all 0.3s',
-                    transform: product.popular ? 'scale(1.01)' : 'none',
-                    boxShadow: product.popular ? '0 8px 40px rgba(16,185,129,0.15)' : 'none',
-                  }}
-                    onMouseEnter={e => {
-                      if (!product.popular) {
-                        e.currentTarget.style.borderColor = 'var(--primary)'
-                        e.currentTarget.style.transform = 'translateY(-4px)'
-                        e.currentTarget.style.boxShadow = '0 8px 40px rgba(16,185,129,0.1)'
-                      }
-                    }}
-                    onMouseLeave={e => {
-                      if (!product.popular) {
-                        e.currentTarget.style.borderColor = 'var(--border)'
-                        e.currentTarget.style.transform = 'none'
-                        e.currentTarget.style.boxShadow = 'none'
-                      }
-                    }}
-                  >
+                  <div className={`product-card ${product.popular ? 'popular' : ''}`}>
                     {product.popular && (
-                      <div style={{
-                        position: 'absolute', top: '-12px', left: '50%', transform: 'translateX(-50%)',
-                        padding: '4px 16px', borderRadius: '50px',
-                        background: 'var(--primary)', color: '#000',
-                        fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px',
-                        display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap',
-                      }}>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#000" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
+                      <div className="popular-badge">
                         {t.pricing.popular}
                       </div>
                     )}
@@ -159,26 +113,9 @@ export default function Services() {
                       ))}
                     </ul>
 
-                    <Link to={p(`/buy/${product.slug}`)} style={{
-                      display: 'block', width: '100%', marginTop: 'auto', padding: '13px',
-                      borderRadius: '10px', textDecoration: 'none',
-                      border: product.popular ? 'none' : '1px solid var(--border)',
-                      background: product.popular ? 'var(--primary)' : 'var(--input-bg)',
-                      color: product.popular ? '#000' : 'var(--text)',
-                      fontSize: '14px', fontWeight: 700, textAlign: 'center',
-                      transition: 'all 0.25s',
-                    }}
-                      onMouseEnter={e => {
-                        e.currentTarget.style.transform = 'translateY(-2px)'
-                        if (product.popular) e.currentTarget.style.boxShadow = '0 0 30px rgba(16,185,129,0.3)'
-                        else e.currentTarget.style.background = 'var(--surface-hover)'
-                      }}
-                      onMouseLeave={e => {
-                        e.currentTarget.style.transform = 'none'
-                        e.currentTarget.style.boxShadow = 'none'
-                        if (!product.popular) e.currentTarget.style.background = 'var(--input-bg)'
-                      }}
-                    >{t.checkout.payBtn}</Link>
+                    <Link to={p(`/buy/${product.slug}`)} className={`buy-btn ${product.popular ? 'primary' : ''}`}>
+                      {t.checkout.payBtn}
+                    </Link>
                   </div>
                 </Reveal>
               ))}
@@ -203,23 +140,17 @@ export default function Services() {
           ].map((item, i) => {
             const open = openFaq === i
             return (
-              <div key={i} style={{
-                border: '1px solid var(--border)', background: 'var(--card-bg)',
-                borderRadius: '12px', overflow: 'hidden',
-              }}>
+              <div key={i} className="faq-item">
                 <button
                   onClick={() => setOpenFaq(open ? -1 : i)}
-                  style={{
-                    width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    gap: '16px', padding: '18px 22px', background: 'transparent', border: 'none',
-                    color: 'var(--text)', fontSize: '15px', fontWeight: 700, cursor: 'pointer', textAlign: 'left',
-                  }}
+                  className="faq-question"
+                  aria-expanded={open}
                 >
                   {item.q}
-                  <span style={{ color: 'var(--primary)', fontSize: '20px', lineHeight: 1, transform: open ? 'rotate(45deg)' : 'none', transition: 'transform 0.2s' }}>+</span>
+                  <span className="faq-toggle" style={{ transform: open ? 'rotate(45deg)' : 'none' }}>+</span>
                 </button>
                 {open && (
-                  <div style={{ padding: '0 22px 20px', fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+                  <div className="faq-answer">
                     {item.a}
                   </div>
                 )}
@@ -228,6 +159,127 @@ export default function Services() {
           })}
         </div>
       </Reveal>
+
+      <style>{`
+        .category-chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 18px;
+          border: 1px solid var(--border);
+          background: var(--badge-bg);
+          font-size: 13px;
+          font-weight: 700;
+          color: var(--text);
+          text-decoration: none;
+          transition: border-color 0.25s, color 0.25s, transform 0.25s;
+        }
+        .category-chip:hover {
+          border-color: var(--primary);
+          color: var(--primary);
+          transform: translateY(-2px);
+        }
+
+        .product-card {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          padding: 32px 30px;
+          border: 1px solid var(--border);
+          background: var(--card-bg);
+          position: relative;
+          transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+        .product-card:hover {
+          border-color: var(--primary);
+          transform: translateY(-4px);
+          box-shadow: 0 8px 40px rgba(16, 185, 129, 0.1);
+        }
+        .product-card.popular {
+          border: 2px solid var(--primary);
+          background: linear-gradient(180deg, rgba(16, 185, 129, 0.08) 0%, var(--card-bg) 100%);
+          box-shadow: 0 8px 40px rgba(16, 185, 129, 0.15);
+        }
+
+        .popular-badge {
+          position: absolute;
+          top: -12px;
+          left: 50%;
+          transform: translateX(-50%);
+          padding: 4px 16px;
+          background: var(--primary);
+          color: #000;
+          font-size: 11px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          white-space: nowrap;
+        }
+
+        .buy-btn {
+          display: block;
+          width: 100%;
+          margin-top: auto;
+          padding: 13px;
+          border: 1px solid var(--border);
+          background: var(--input-bg);
+          color: var(--text);
+          font-size: 14px;
+          font-weight: 700;
+          text-align: center;
+          text-decoration: none;
+          transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.25s, box-shadow 0.25s;
+        }
+        .buy-btn:hover {
+          background: var(--surface-hover);
+          border-color: var(--primary);
+          transform: translateY(-2px);
+        }
+        .buy-btn.primary {
+          border: none;
+          background: var(--primary);
+          color: #000;
+        }
+        .buy-btn.primary:hover {
+          background: var(--primary-dark);
+          box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .faq-item {
+          border: 1px solid var(--border);
+          background: var(--card-bg);
+          overflow: hidden;
+          transition: border-color 0.25s;
+        }
+        .faq-item:hover { border-color: var(--border-hover); }
+        .faq-question {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+          padding: 18px 22px;
+          background: transparent;
+          border: none;
+          color: var(--text);
+          font-size: 15px;
+          font-weight: 700;
+          cursor: pointer;
+          text-align: left;
+        }
+        .faq-toggle {
+          color: var(--primary);
+          font-size: 20px;
+          line-height: 1;
+          transition: transform 0.2s;
+        }
+        .faq-answer {
+          padding: 0 22px 20px;
+          font-size: 14px;
+          color: var(--text-secondary);
+          line-height: 1.7;
+        }
+      `}</style>
     </div>
   )
 }

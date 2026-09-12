@@ -4,15 +4,7 @@ import Reveal from '../components/Reveal'
 
 function MemberCard({ member }) {
   return (
-    <div style={{
-      padding: '28px', borderRadius: 0,
-      border: '1px solid var(--border)', background: 'var(--card-bg)',
-      backdropFilter: 'blur(10px)', textAlign: 'center',
-      transition: 'all 0.3s', height: '100%',
-    }}
-      onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = 'none' }}
-      onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}
-    >
+    <div className="card-lift" style={{ padding: '28px', textAlign: 'center', height: '100%' }}>
       {member.avatar ? (
         <img src={member.avatar} alt={member.name} style={{
           width: '72px', height: '72px', borderRadius: '50%', objectFit: 'cover',
@@ -44,14 +36,8 @@ function ProjectCard({ project }) {
   return (
     <a
       href={project.link || '#'}
-      style={{
-        padding: '24px', borderRadius: 0,
-        border: '1px solid var(--border)', background: 'var(--card-bg)',
-        backdropFilter: 'blur(10px)', textDecoration: 'none', color: 'inherit',
-        transition: 'all 0.3s', display: 'block', height: '100%',
-      }}
-      onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = 'none' }}
-      onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}
+      className="card-lift"
+      style={{ padding: '24px', textDecoration: 'none', color: 'inherit', display: 'block', height: '100%' }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '12px' }}>
         {project.image && <img src={project.image} alt={project.name} style={{ width: '48px', height: '48px', borderRadius: 0, objectFit: 'cover' }}/>}
@@ -117,7 +103,7 @@ export default function Developers() {
       {unassigned.length > 0 && (
         <Reveal style={{ marginBottom: '64px' }}>
           <h2 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '32px' }}>
-            <span style={{ padding: '8px 20px', borderRadius: 0, background: 'var(--input-bg)', border: '1px solid var(--border)', color: 'var(--text-secondary)', fontSize: '14px' }}>Team</span>
+            <span style={{ padding: '8px 20px', borderRadius: 0, background: 'var(--input-bg)', border: '1px solid var(--border)', color: 'var(--text-secondary)', fontSize: '14px' }}>{t.developers.team}</span>
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '20px' }}>
             {unassigned.map((m, i) => <Reveal key={m.id} delay={i * 80}><MemberCard member={m}/></Reveal>)}
@@ -128,7 +114,7 @@ export default function Developers() {
       {projects.length > 0 && (
         <Reveal style={{ marginTop: '64px' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.5px' }}>Projects</h2>
+            <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.5px' }}>{t.developers.projectsTitle}</h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '20px' }}>
             {projects.map((p, i) => <Reveal key={p.id} delay={(i % 3) * 100}><ProjectCard project={p}/></Reveal>)}
