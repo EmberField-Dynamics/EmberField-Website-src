@@ -332,10 +332,12 @@ export default function Navbar() {
       )}
 
       <style>{`
-        nav .nav-link { outline: none !important; }
-        nav .nav-link:focus-visible { outline: none !important; }
-        nav .dropdown-trigger, nav .mobile-menu-btn { outline: none !important; }
-        button:focus, button:focus-visible { outline: none !important; }
+        nav .nav-link, nav .dropdown-trigger, nav .mobile-menu-btn, nav .icon-btn, nav .btn-primary,
+        nav .nav-link:focus, nav .nav-link:focus-visible,
+        button:focus, button:focus-visible {
+          outline: none !important;
+          box-shadow: none !important;
+        }
         @media (max-width: 1024px) {
           .nav-links { display: none !important; }
           .nav-right-actions .mobile-menu-btn { display: flex !important; }
