@@ -113,7 +113,7 @@ function LangLayout() {
             <Route path="pricing" element={<RedirectTo to="/services" />} />
             <Route path="buy" element={<Buy />} />
             <Route path="buy/:plan" element={<Buy />} />
-            <Route path="contact" element={<RequireAuth><NewTicket /></RequireAuth>} />
+            <Route path="contact" element={<RedirectTo to="/support/new" />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="auth/callback" element={<AuthCallback />} />

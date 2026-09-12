@@ -103,7 +103,7 @@ export default function Footer() {
               [p('/'), 'Home'],
               [p('/services'), 'Services'],
               [p('/developers'), 'Developers'],
-              [p('/contact'), 'Contact'],
+              [p('/support/new'), 'Contact'],
             ].map(([to, label]) => (
               <Link key={to} to={to} style={{ display: 'block', fontSize: '13px', color: '#94A3B8', marginBottom: '10px', transition: 'color 0.2s' }}
                 onMouseEnter={linkHover} onMouseLeave={linkLeave}>{label}</Link>

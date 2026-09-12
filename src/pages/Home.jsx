@@ -462,7 +462,7 @@ export default function Home() {
                 onMouseEnter={e => e.currentTarget.style.opacity = '0.9'}
                 onMouseLeave={e => e.currentTarget.style.opacity = '1'}
               >{t.cta.btn1}</Link>
-              <Link to={p('/contact')} style={{
+              <Link to={p('/support/new')} style={{
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                 padding: '24px 32px', background: 'transparent',
                 border: '1px solid var(--border-hover)', color: 'var(--text)',

@@ -50,7 +50,7 @@ export default function Navbar() {
     ['/developers', t.nav.developers],
     ['/docs', t.nav.docs],
     ['/forums', t.nav.forums],
-    ['/contact', t.nav.contact],
+    ['/support/new', t.nav.contact],
   ]
 
   const serviceOptions = t.nav.serviceOptions || []
