@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 
 const CONSENT_KEY = 'ed-cookie-consent'
+const SHOW_DELAY_MS = 10000
 
 export function getCookieConsent() {
   try {
@@ -15,8 +16,14 @@ export function getCookieConsent() {
 export default function CookieBanner() {
   const { lang, t } = useLanguage()
   const [consent, setConsent] = useState(getCookieConsent)
+  const [visible, setVisible] = useState(false)
 
-  if (consent) return null
+  useEffect(() => {
+    const timer = setTimeout(() => setVisible(true), SHOW_DELAY_MS)
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (consent || !visible) return null
 
   const choose = (value) => {
     try {

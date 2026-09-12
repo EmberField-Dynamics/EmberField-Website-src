@@ -8,6 +8,7 @@ export const languages = {
 
 export const translations = {
   en: {
+    infoBar: 'Professional Digital Infrastructure \u2022 Emberfield Dynamics',
     nav: {
       services: 'Services',
       projects: 'Projects',
