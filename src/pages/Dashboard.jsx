@@ -80,7 +80,7 @@ export default function Dashboard() {
               <Empty text="No tickets yet. Open a support ticket when you need help." action={<Link to={p('/support/new')}><Btn tone="primary" size="md">Create Ticket</Btn></Link>} />
             )}
             {tickets.slice(0, 5).map(t => (
-              <Link key={t.id} to={p(`/support/ticket-${t.slug}`)} style={{ textDecoration: 'none' }}>
+              <Link key={t.id} to={p(`/support/ticket/${t.slug}`)} style={{ textDecoration: 'none' }}>
                 <Card style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
                   <div style={{ flex: 1, minWidth: '180px' }}>
                     <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{t.title}</div>

@@ -76,7 +76,7 @@ export default function AdminTickets() {
           return (
             <Card key={t.id} style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap', padding: '14px 18px' }}>
               <div style={{ flex: 1, minWidth: '200px' }}>
-                <Link to={p(`/support/ticket-${t.slug}`)} style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text)', textDecoration: 'none' }}>
+                <Link to={p(`/support/ticket/${t.slug}`)} style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text)', textDecoration: 'none' }}>
                   {t.title}
                 </Link>
                 <div style={{ fontSize: '11px', color: 'var(--text-secondary)', fontFamily: 'monospace', marginTop: '3px' }}>

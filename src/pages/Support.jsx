@@ -64,7 +64,7 @@ export default function Support() {
           <Empty text="No tickets match the current filters." action={<Link to={p('/support/new')}><Btn tone="primary">Create Ticket</Btn></Link>} />
         )}
         {filtered.map(t => (
-          <Link key={t.id} to={p(`/support/ticket-${t.slug}`)} style={{ textDecoration: 'none' }}>
+          <Link key={t.id} to={p(`/support/ticket/${t.slug}`)} style={{ textDecoration: 'none' }}>
             <Card style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap', transition: 'border-color 0.15s, background 0.15s' }}
               onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface-hover)'; e.currentTarget.style.borderColor = '#10B981' }}
               onMouseLeave={e => { e.currentTarget.style.background = 'var(--surface)'; e.currentTarget.style.borderColor = 'var(--border)' }}

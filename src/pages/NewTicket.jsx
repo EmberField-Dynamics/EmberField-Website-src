@@ -52,7 +52,7 @@ export default function NewTicket() {
       .insert({ ticket_id: ticket.id, author_id: user.id, body: body.trim() })
     setSaving(false)
     if (mErr) { setError(mErr.message || 'Ticket created but message could not be saved.'); return }
-    navigate(p(`/support/ticket-${slug}`), { replace: true })
+    navigate(p(`/support/ticket/${slug}`), { replace: true })
   }
 
   return (

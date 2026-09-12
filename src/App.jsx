@@ -122,7 +122,7 @@ function LangLayout() {
             <Route path="dashboard" element={<RequireAuth><Dashboard /></RequireAuth>} />
             <Route path="support" element={<RequireAuth><Support /></RequireAuth>} />
             <Route path="support/new" element={<RequireAuth><NewTicket /></RequireAuth>} />
-            <Route path="support/ticket-:slug" element={<RequireAuth><TicketDetail /></RequireAuth>} />
+            <Route path="support/ticket/:slug" element={<RequireAuth><TicketDetail /></RequireAuth>} />
             <Route path="settings/:section" element={<RequireAuth><Settings /></RequireAuth>} />
             <Route path="admin" element={<RequireStaff><AdminLayout /></RequireStaff>}>
               <Route index element={<AdminOverview />} />
